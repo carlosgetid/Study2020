@@ -6,7 +6,7 @@ create table tb_topic
 topic_ID int primary key auto_increment not null,
 topic_Name varchar(70) not null,
 topic_Date timestamp default current_timestamp,
-topic_Favorite boolean default false
+topic_Favorite boolean default false not null
 );
 
 alter table tb_topic auto_increment=1001;
@@ -17,7 +17,7 @@ category_ID int primary key auto_increment not null,
 category_Selection boolean default false,
 category_Name varchar(50) not null,
 category_Date timestamp default current_timestamp,
-category_Favorite boolean default false
+category_Favorite boolean default false not null    
 );
 
 alter table tb_category auto_increment=2001;
@@ -28,7 +28,7 @@ exercise_ID int primary key auto_increment not null,
 exercise_Selection boolean default false,
 exercise_Text varchar(200) not null,
 exercise_Date timestamp default current_timestamp,
-exercise_Favorite boolean default false
+exercise_Favorite boolean default false not null
 );
 
 alter table tb_exercise auto_increment=3001;
@@ -59,3 +59,11 @@ primary key (category_ID, exercise_ID),
 constraint foreign key fk_tb_category_exercise_category_ID(category_ID) references tb_category (category_ID),
 constraint foreign key fk_tb_category_exercise_exercise_ID(exercise_ID) references tb_exercise (exercise_ID)
 );
+
+insert into tb_topic (topic_Name, topic_Favorite) values ('Water',false);
+insert into tb_topic (topic_Name, topic_Favorite) values ('Sand',true);
+insert into tb_topic (topic_Name, topic_Favorite) values ('Earth',false);
+insert into tb_topic (topic_Name, topic_Favorite) values ('Air',true);
+insert into tb_topic (topic_Name, topic_Favorite) values ('Ocean',False);
+
+select topic_Name, topic_Date, topic_Favorite from tb_topic;

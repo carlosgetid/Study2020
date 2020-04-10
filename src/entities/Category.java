@@ -8,14 +8,7 @@ public class Category {
 	private String categoryName;
 	private Date categoryDate;
 	private boolean categoryFavorite;
-	public Category(int categoryID, boolean categorySelection, String categoryName, Date categoryDate,
-			boolean categoryFavorite) {
-		this.categoryID = categoryID;
-		this.categorySelection = categorySelection;
-		this.categoryName = categoryName;
-		this.categoryDate = categoryDate;
-		this.categoryFavorite = categoryFavorite;
-	}
+	
 	public int getCategoryID() {
 		return categoryID;
 	}

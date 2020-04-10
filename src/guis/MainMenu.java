@@ -1,6 +1,5 @@
 package guis;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JButton;
@@ -12,14 +11,30 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+import controllers.MySQLTopicDAO;
+import entities.Topic;
+
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.DefaultComboBoxModel;
 
 public class MainMenu extends JFrame implements ItemListener, ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	MySQLTopicDAO msTopDAO;
+	DefaultTableModel tblModel;
+	
 	private JPanel contentPane;
 	private JScrollPane spTopicInfo;
 	private JTextArea txtTopicInfo;
@@ -27,8 +42,9 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 	private JTable tblTopics;
 	private JButton btnSelect;
 	private JButton btnNewTopic;
-	private JComboBox cboTopicGroup;
+	private JComboBox<String> cboTopicGroup;
 	private JTextField txtSearchTopic;
+	private int topicGroupID;
 	
 	/**
 	 * Launch the application.
@@ -77,8 +93,24 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 			spTopics = new JScrollPane();
 			spTopics.setBounds(10, 42, 499, 153);
 			pnlTopics.add(spTopics);
-			
+				
 				tblTopics = new JTable();
+				
+				//Customizing table model
+				tblModel = new DefaultTableModel();
+				tblModel.addColumn("Name");//0
+				tblModel.addColumn("Date");//1
+				tblModel.addColumn("Favorite");//2
+				tblModel.addColumn("");//3 //offline or online //hidden column
+				tblModel.addColumn("");//4
+				tblModel.addColumn("");//5
+				
+				tblTopics.setModel(tblModel);
+				
+				showTableContent();
+				
+				filterTopics("true", 2);
+				
 				spTopics.setViewportView(tblTopics);
 			
 			btnSelect = new JButton("Select");
@@ -91,7 +123,8 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 			btnNewTopic.setBounds(395, 194, 114, 23);
 			pnlTopics.add(btnNewTopic);
 			
-			cboTopicGroup = new JComboBox();
+			cboTopicGroup = new JComboBox<String>();
+			cboTopicGroup.setModel(new DefaultComboBoxModel<String>(new String[] {"Favorites", "My topics", "Online topics"}));
 			cboTopicGroup.addItemListener(this);
 			cboTopicGroup.setBounds(10, 10, 96, 22);
 			pnlTopics.add(cboTopicGroup);
@@ -106,13 +139,40 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 		JPanel pnlExercises = new JPanel();
 		tabbedPane.addTab("New tab", null, pnlExercises, null);
 	}
+	private void filterTopics(String string, int columnIndex) {
+		TableRowSorter<DefaultTableModel> trs = new TableRowSorter<DefaultTableModel>(tblModel);
+		tblTopics.setRowSorter(trs);
+		
+		trs.setRowFilter(RowFilter.regexFilter(string, columnIndex));
+	}
+
+	private void showTableContent() {
+		//clear table content
+		tblModel.setRowCount(0);
+		
+		msTopDAO=new MySQLTopicDAO();
+		
+		for(Topic t:msTopDAO.readTopics()) {
+			Object row[] = {
+					t.getTopicName(),t.getTopicDate(),t.isTopicFavorite(),"offline"
+			};
+			tblModel.addRow(row);
+		}
+	}
+
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getSource() == cboTopicGroup) {
 			itemStateChangedCboTopicGroup(e);
 		}
 	}
 	protected void itemStateChangedCboTopicGroup(ItemEvent e) {
-		
+		topicGroupID = cboTopicGroup.getSelectedIndex();
+		if(topicGroupID == 1)
+			filterTopics("offline", 3);//column index==3 is hidden
+		else if(topicGroupID == 2)
+			filterTopics("online", 3);//column index==3 is hidden
+		else
+			filterTopics("true", 2);//favorite column
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnNewTopic) {

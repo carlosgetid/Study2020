@@ -8,14 +8,7 @@ public class Exercise {
 	private String exerciseText;
 	private Date exerciseDate;
 	private boolean exerciseFavorite;
-	public Exercise(int exerciseID, boolean exerciseSelection, String exerciseText, Date exerciseDate,
-			boolean exerciseFavorite) {
-		this.exerciseID = exerciseID;
-		this.exerciseSelection = exerciseSelection;
-		this.exerciseText = exerciseText;
-		this.exerciseDate = exerciseDate;
-		this.exerciseFavorite = exerciseFavorite;
-	}
+	
 	public int getExerciseID() {
 		return exerciseID;
 	}

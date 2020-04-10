@@ -9,7 +9,7 @@ public class MySQLConnect {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			String url,user,pass;
-			url="jdbc:mysql://localhost:3306/DBStudy2020";
+			url="jdbc:mysql://localhost:3306/sys_offline_study2020";
 			user="root";
 			pass="mysql";
 			cn=DriverManager.getConnection(url,user,pass);

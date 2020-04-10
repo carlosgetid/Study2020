@@ -7,12 +7,7 @@ public class Topic {
 	private String topicName;
 	private Date topicDate;
 	private boolean topicFavorite;
-	public Topic(int topicID, String topicName, Date topicDate, boolean topicFavorite) {
-		this.topicID = topicID;
-		this.topicName = topicName;
-		this.topicDate = topicDate;
-		this.topicFavorite = topicFavorite;
-	}
+	
 	public int getTopicID() {
 		return topicID;
 	}
