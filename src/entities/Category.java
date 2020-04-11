@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Category {
 	private int categoryID;
-	private boolean categorySelection;
+	private boolean categorySelected;
 	private String categoryName;
 	private Date categoryDate;
 	private boolean categoryFavorite;
@@ -16,10 +16,10 @@ public class Category {
 		this.categoryID = categoryID;
 	}
 	public boolean isCategorySelection() {
-		return categorySelection;
+		return categorySelected;
 	}
 	public void setCategorySelection(boolean categorySelection) {
-		this.categorySelection = categorySelection;
+		this.categorySelected = categorySelection;
 	}
 	public String getCategoryName() {
 		return categoryName;

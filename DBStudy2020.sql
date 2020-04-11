@@ -14,7 +14,6 @@ alter table tb_topic auto_increment=1001;
 create table tb_category
 (
 category_ID int primary key auto_increment not null,
-category_Selection boolean default false,
 category_Name varchar(50) not null,
 category_Date timestamp default current_timestamp,
 category_Favorite boolean default false not null    
@@ -25,7 +24,6 @@ alter table tb_category auto_increment=2001;
 create table tb_exercise
 (
 exercise_ID int primary key auto_increment not null,
-exercise_Selection boolean default false,
 exercise_Text varchar(200) not null,
 exercise_Date timestamp default current_timestamp,
 exercise_Favorite boolean default false not null
@@ -65,5 +63,5 @@ insert into tb_topic (topic_Name, topic_Favorite) values ('Sand',true);
 insert into tb_topic (topic_Name, topic_Favorite) values ('Earth',false);
 insert into tb_topic (topic_Name, topic_Favorite) values ('Air',true);
 insert into tb_topic (topic_Name, topic_Favorite) values ('Ocean',False);
-
 select topic_Name, topic_Date, topic_Favorite from tb_topic;
+select topic_Name, date_format(topic_Date, '%d/%m/%Y %H:%i %p'), topic_Favorite from tb_topic;

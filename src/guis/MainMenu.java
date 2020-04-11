@@ -16,11 +16,12 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import components.TopicTableModel;
 import controllers.MySQLTopicDAO;
 import entities.Topic;
 
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -33,7 +34,8 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	MySQLTopicDAO msTopDAO;
-	DefaultTableModel tblModel;
+	TopicTableModel tblModel;
+	SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yy HH:mm a");
 	
 	private JPanel contentPane;
 	private JScrollPane spTopicInfo;
@@ -94,22 +96,29 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 			spTopics.setBounds(10, 42, 499, 153);
 			pnlTopics.add(spTopics);
 				
-				tblTopics = new JTable();
+				tblModel = new TopicTableModel();
 				
-				//Customizing table model
-				tblModel = new DefaultTableModel();
-				tblModel.addColumn("Name");//0
-				tblModel.addColumn("Date");//1
-				tblModel.addColumn("Favorite");//2
-				tblModel.addColumn("");//3 //offline or online //hidden column
-				tblModel.addColumn("");//4
+				//Table header
+				tblModel.addColumn("Selection");//0
+				tblModel.addColumn("Name");//1
+				tblModel.addColumn("Creation date");//2
+				tblModel.addColumn("Favorite");//3
+				tblModel.addColumn("");//4 //offline or online //hidden column
 				tblModel.addColumn("");//5
+				tblModel.addColumn("");//6
+								
+				tblTopics = new JTable();
 				
 				tblTopics.setModel(tblModel);
 				
+				//Column width
+				tblTopics.getColumnModel().getColumn(4).setMinWidth(0);
+				tblTopics.getColumnModel().getColumn(4).setMaxWidth(0);
+				tblTopics.getColumnModel().getColumn(4).setWidth(0);
+				
 				showTableContent();
 				
-				filterTopics("true", 2);
+				filterTopics("true", 3);
 				
 				spTopics.setViewportView(tblTopics);
 			
@@ -154,7 +163,7 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 		
 		for(Topic t:msTopDAO.readTopics()) {
 			Object row[] = {
-					t.getTopicName(),t.getTopicDate(),t.isTopicFavorite(),"offline"
+					t.isTopicSelected(),t.getTopicName(),sdf.format(t.getTopicDatetime()),t.isTopicFavorite(),"offline"
 			};
 			tblModel.addRow(row);
 		}
@@ -168,11 +177,11 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 	protected void itemStateChangedCboTopicGroup(ItemEvent e) {
 		topicGroupID = cboTopicGroup.getSelectedIndex();
 		if(topicGroupID == 1)
-			filterTopics("offline", 3);//column index==3 is hidden
+			filterTopics("offline", 4);//column index==4 is hidden
 		else if(topicGroupID == 2)
-			filterTopics("online", 3);//column index==3 is hidden
+			filterTopics("online", 4);//column index==4 is hidden
 		else
-			filterTopics("true", 2);//favorite column
+			filterTopics("true", 3);//favorite column
 	}
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnNewTopic) {

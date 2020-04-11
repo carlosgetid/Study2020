@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Exercise {
 	private int exerciseID;
-	private boolean exerciseSelection;
+	private boolean exerciseSelected;
 	private String exerciseText;
 	private Date exerciseDate;
 	private boolean exerciseFavorite;
@@ -16,10 +16,10 @@ public class Exercise {
 		this.exerciseID = exerciseID;
 	}
 	public boolean isExerciseSelection() {
-		return exerciseSelection;
+		return exerciseSelected;
 	}
 	public void setExerciseSelection(boolean exerciseSelection) {
-		this.exerciseSelection = exerciseSelection;
+		this.exerciseSelected = exerciseSelection;
 	}
 	public String getExerciseText() {
 		return exerciseText;

@@ -1,18 +1,24 @@
 package entities;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Topic {
 	private int topicID;
+	private boolean topicSelected;
 	private String topicName;
-	private Date topicDate;
+	private Timestamp topicDatetime;
 	private boolean topicFavorite;
-	
 	public int getTopicID() {
 		return topicID;
 	}
 	public void setTopicID(int topicID) {
 		this.topicID = topicID;
+	}
+	public boolean isTopicSelected() {
+		return topicSelected;
+	}
+	public void setTopicSelected(boolean topicSelected) {
+		this.topicSelected = topicSelected;
 	}
 	public String getTopicName() {
 		return topicName;
@@ -20,11 +26,11 @@ public class Topic {
 	public void setTopicName(String topicName) {
 		this.topicName = topicName;
 	}
-	public Date getTopicDate() {
-		return topicDate;
+	public Timestamp getTopicDatetime() {
+		return topicDatetime;
 	}
-	public void setTopicDate(Date topicDate) {
-		this.topicDate = topicDate;
+	public void setTopicDatetime(Timestamp topicDatetime) {
+		this.topicDatetime = topicDatetime;
 	}
 	public boolean isTopicFavorite() {
 		return topicFavorite;
@@ -32,4 +38,5 @@ public class Topic {
 	public void setTopicFavorite(boolean topicFavorite) {
 		this.topicFavorite = topicFavorite;
 	}
+	
 }

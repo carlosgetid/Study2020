@@ -26,7 +26,7 @@ public class MySQLTopicDAO implements topicDAO{
 			while(rs.next()) {
 				t=new Topic();
 				t.setTopicName(rs.getString(1));
-				t.setTopicDate(rs.getDate(2));
+				t.setTopicDatetime(rs.getTimestamp(2));
 				t.setTopicFavorite(rs.getBoolean(3));
 				list.add(t);
 			}
