@@ -3,6 +3,7 @@ package guis;
 import java.awt.EventQueue;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,6 +17,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import components.ButtonEditor;
+import components.ButtonRenderer;
 import components.TopicTableModel;
 import controllers.MySQLTopicDAO;
 import entities.Topic;
@@ -104,7 +107,7 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 				tblModel.addColumn("Creation date");//2
 				tblModel.addColumn("Favorite");//3
 				tblModel.addColumn("");//4 //offline or online //hidden column
-				tblModel.addColumn("");//5
+				tblModel.addColumn("Button");//5
 				tblModel.addColumn("");//6
 								
 				tblTopics = new JTable();
@@ -116,6 +119,8 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 				tblTopics.getColumnModel().getColumn(4).setMaxWidth(0);
 				tblTopics.getColumnModel().getColumn(4).setWidth(0);
 				
+				tblTopics.getColumn("Button").setCellRenderer(new ButtonRenderer());
+				tblTopics.getColumn("Button").setCellEditor(new ButtonEditor(new JCheckBox()));
 				showTableContent();
 				
 				filterTopics("true", 3);
