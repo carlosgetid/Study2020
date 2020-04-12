@@ -120,10 +120,11 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 				tblTopics.getColumnModel().getColumn(4).setWidth(0);
 				
 				//set buttons in table
-				tblTopics.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
-				tblTopics.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox()));
-				tblTopics.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
-				tblTopics.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox()));
+				tblTopics.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer(5));
+				tblTopics.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox(), 5));
+				tblTopics.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
+				tblTopics.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), 6));
+				
 				showTableContent();
 				
 				filterTopics("true", 3);

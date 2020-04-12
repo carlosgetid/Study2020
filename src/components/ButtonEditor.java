@@ -1,10 +1,12 @@
 package components;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -16,7 +18,7 @@ public class ButtonEditor extends DefaultCellEditor{
 	private String label;
 	private boolean isPushed;
 	
-	public ButtonEditor(JCheckBox checkBox) {
+	public ButtonEditor(JCheckBox checkBox, int columnIndex) {
 		super(checkBox);
 		button = new JButton();
 		button.setOpaque(true);
@@ -27,7 +29,11 @@ public class ButtonEditor extends DefaultCellEditor{
 				fireEditingStopped();
 			}
 		});
-	
+
+		String url = (columnIndex == 5) ? "/rename.png" : "/delete.png";
+		// after press button
+		Image img = new ImageIcon(this.getClass().getResource(url)).getImage();
+		button.setIcon(new ImageIcon(img));
 	}
 	@Override
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
