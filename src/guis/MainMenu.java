@@ -107,7 +107,7 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 				tblModel.addColumn("Creation date");//2
 				tblModel.addColumn("Favorite");//3
 				tblModel.addColumn("");//4 //offline or online //hidden column
-				tblModel.addColumn("Button");//5
+				tblModel.addColumn("");//5
 				tblModel.addColumn("");//6
 								
 				tblTopics = new JTable();
@@ -119,8 +119,11 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 				tblTopics.getColumnModel().getColumn(4).setMaxWidth(0);
 				tblTopics.getColumnModel().getColumn(4).setWidth(0);
 				
-				tblTopics.getColumn("Button").setCellRenderer(new ButtonRenderer());
-				tblTopics.getColumn("Button").setCellEditor(new ButtonEditor(new JCheckBox()));
+				//set buttons in table
+				tblTopics.getColumnModel().getColumn(5).setCellRenderer(new ButtonRenderer());
+				tblTopics.getColumnModel().getColumn(5).setCellEditor(new ButtonEditor(new JCheckBox()));
+				tblTopics.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer());
+				tblTopics.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox()));
 				showTableContent();
 				
 				filterTopics("true", 3);
