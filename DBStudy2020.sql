@@ -65,3 +65,8 @@ insert into tb_topic (topic_Name, topic_Favorite) values ('Air',true);
 insert into tb_topic (topic_Name, topic_Favorite) values ('Ocean',False);
 select topic_Name, topic_Date, topic_Favorite from tb_topic;
 select topic_Name, date_format(topic_Date, '%d/%m/%Y %H:%i %p'), topic_Favorite from tb_topic;
+select * from tb_topic;
+
+update tb_topic set topic_Name = "Water"  where topic_ID = 1001;
+
+select * from tb_topic;

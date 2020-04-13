@@ -22,7 +22,7 @@ public class ButtonRenderer extends JButton implements TableCellRenderer{
 		setOpaque(true);
 		renderButton = new JButton();
 		
-		String url = (columnIndex == 5) ? "/rename.png" : "/delete.png";
+		String url = (columnIndex == 6) ? "/rename.png" : "/delete.png";
 		// before press button
 		Image img = new ImageIcon(this.getClass().getResource(url)).getImage();
 		renderButton.setIcon(new ImageIcon(img));

@@ -19,15 +19,16 @@ public class MySQLTopicDAO implements topicDAO{
 		ResultSet rs=null;
 		try {
 			cn=MySQLConnect.getConnection();
-			String sql="select topic_Name, topic_Date, topic_Favorite from tb_topic";
+			String sql="select * from tb_topic";
 			pstm=cn.prepareStatement(sql);
 			rs=pstm.executeQuery();
 			Topic t;
 			while(rs.next()) {
 				t=new Topic();
-				t.setTopicName(rs.getString(1));
-				t.setTopicDatetime(rs.getTimestamp(2));
-				t.setTopicFavorite(rs.getBoolean(3));
+				t.setTopicID(rs.getInt(1));
+				t.setTopicName(rs.getString(2));
+				t.setTopicDatetime(rs.getTimestamp(3));
+				t.setTopicFavorite(rs.getBoolean(4));
 				list.add(t);
 			}
 		} catch (Exception e) {

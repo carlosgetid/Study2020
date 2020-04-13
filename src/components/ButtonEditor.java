@@ -9,17 +9,23 @@ import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
+
+import guis.Rename;
 
 public class ButtonEditor extends DefaultCellEditor{
 	
 	protected JButton button;
 	private String label;
 	private boolean isPushed;
+	private String entityName;
+	private JTable table;
+	private int columnIndex;
 	
-	public ButtonEditor(JCheckBox checkBox, int columnIndex) {
+	public ButtonEditor(JCheckBox checkBox,String entityName, JTable table, int columnIndex) {
 		super(checkBox);
+		this.entityName=entityName;
+		this.table=table;
 		button = new JButton();
 		button.setOpaque(true);
 		button.addActionListener(new ActionListener() {
@@ -30,7 +36,7 @@ public class ButtonEditor extends DefaultCellEditor{
 			}
 		});
 
-		String url = (columnIndex == 5) ? "/rename.png" : "/delete.png";
+		String url = (columnIndex == 6) ? "/rename.png" : "/delete.png";
 		// after press button
 		Image img = new ImageIcon(this.getClass().getResource(url)).getImage();
 		button.setIcon(new ImageIcon(img));
@@ -54,7 +60,8 @@ public class ButtonEditor extends DefaultCellEditor{
 	@Override
 	public Object getCellEditorValue() {
 		if(isPushed) {
-			JOptionPane.showMessageDialog(button, label + ": Ouch!");
+			Rename gui = new Rename(entityName, table, 70);
+			gui.setVisible(true);
 		}
 		isPushed = false;
 		return label;
