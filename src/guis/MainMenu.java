@@ -39,7 +39,7 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 	
 	MySQLTopicDAO msTopDAO;
 	TopicTableModel tblModel;
-	SimpleDateFormat sdf=new SimpleDateFormat("dd/MM/yy HH:mm a");
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 	
 	private JPanel contentPane;
 	private JScrollPane spTopicInfo;
@@ -224,5 +224,7 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 		
 	}
 	protected void actionPerformedBtnNewTopic(ActionEvent e) {
+		NewTopic gui = new NewTopic();
+		gui.setVisible(true);
 	}
 }

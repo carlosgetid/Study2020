@@ -108,7 +108,7 @@ public class Rename extends JDialog implements ActionListener{
 		
 		/*** refresh content, two options ***/
 		// A. bring data from DB and load all rows again
-		//MainMenu.showTableContent();
+//		MainMenu.showTableContent();
 		
 		// B. don't bring data from DB, update only the cell name
 		table.setValueAt(txtName.getText(), table.getSelectedRow(), 2);

@@ -1,5 +1,6 @@
 package controllers;
 
+import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,7 +44,16 @@ public class MySQLTopicDAO implements topicDAO{
 				e2.printStackTrace();
 			}
 		}
+		
 		return list;
 	}
 	
+//	public void showFields(Object o) {
+//		Class<?> clazz = o.getClass();
+//		
+//		for(Field field:clazz.getDeclaredFields()) {
+//			System.out.println(field.toGenericString());
+//		}
+//	}
+//	
 }
