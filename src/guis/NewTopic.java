@@ -12,14 +12,27 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.RowFilter;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
+
+import components.TopicTableModel;
+import dao.MySQLCategoryDAO;
+import entities.Category;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.text.SimpleDateFormat;
 
 public class NewTopic extends JFrame implements ActionListener, ItemListener {
 
+	TopicTableModel tblModel;
+	MySQLCategoryDAO msCatDAO;
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
+	
 	private JPanel contentPane;
 	private JTextField txtTopicName;
 	private JTextField txtSearchCategory;
@@ -80,9 +93,36 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 		spCategories.setBounds(28, 119, 552, 115);
 		contentPane.add(spCategories);
 		
+			tblModel = new TopicTableModel();
+			
+			// column headings
+			tblModel.addColumn("");//0 // ID // hidden column
+			tblModel.addColumn("Selection");//1
+			tblModel.addColumn("Name");//2
+			tblModel.addColumn("Creation date");//3
+			tblModel.addColumn("Favorite");//4
+			tblModel.addColumn("");//5 // offline or online // hidden column
+			tblModel.addColumn("");//6
+			tblModel.addColumn("");//7
+		
 			tblCategories = new JTable();
+			
+			tblCategories.setModel(tblModel);
+			
+			// column widths
+			tblCategories.getColumnModel().getColumn(0).setMinWidth(0);
+			tblCategories.getColumnModel().getColumn(0).setMaxWidth(0);
+			tblCategories.getColumnModel().getColumn(0).setWidth(0);
+			tblCategories.getColumnModel().getColumn(5).setMinWidth(0);
+			tblCategories.getColumnModel().getColumn(5).setMaxWidth(0);
+			tblCategories.getColumnModel().getColumn(5).setWidth(0);
+			
+			
+			showTableContent();
+			
+			filterCategories("true", 4);
+			
 			spCategories.setViewportView(tblCategories);
-			//filter
 		
 		/*** Exercise table ***/
 		JScrollPane spExercises = new JScrollPane();
@@ -170,6 +210,33 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 			txtSelectedExercises = new JTextArea();
 			spSelectedExercises.setViewportView(txtSelectedExercises);
 			txtSelectedExercises.setEditable(false);
+	}
+	
+	private void filterCategories(String input, int columnIndex) {
+		TableRowSorter<DefaultTableModel> trs = new TableRowSorter<DefaultTableModel>(tblModel);
+		tblCategories.setRowSorter(trs);
+		
+		trs.setRowFilter(RowFilter.regexFilter(input, columnIndex));
+	}
+	
+	
+	private void showTableContent() {
+		// clear table content
+		tblModel.setRowCount(0);
+		
+		msCatDAO = new MySQLCategoryDAO();
+		
+		for(Category c:msCatDAO.readCategories()) {
+			Object row[] = {
+					c.getCategoryID(),
+					c.isCategorySelected(),
+					c.getCategoryName(),
+					sdf.format(c.getCategoryDatetime()),
+					c.isCategoryFavorite(),
+					"offline"
+			};
+			tblModel.addRow(row);
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
