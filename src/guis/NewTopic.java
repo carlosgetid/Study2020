@@ -48,6 +48,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 	private JTextArea txtSelectedCategories;
 	private JScrollPane spSelectedExercises;
 	private JTextArea txtSelectedExercises;
+	private int categoryGroupID;
 	
 	/**
 	 * Launch the application.
@@ -140,9 +141,11 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 		btnAdd.setBounds(490, 30, 89, 23);
 		contentPane.add(btnAdd);
 		
+		/*** Groups of categories in combo box ***/
+		
 		cboCategoryGroup = new JComboBox<String>();
-		cboCategoryGroup.addItemListener(this);
 		cboCategoryGroup.setModel(new DefaultComboBoxModel<String>(new String[] {"Favorites", "My categories", "Online categories"}));
+		cboCategoryGroup.addItemListener(this);
 		cboCategoryGroup.setBounds(84, 82, 96, 22);
 		contentPane.add(cboCategoryGroup);
 		
@@ -271,7 +274,13 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 	}
 	
 	protected void itemStateChangedCboCategoryGroup(ItemEvent e) {
-		
+		categoryGroupID = cboCategoryGroup.getSelectedIndex();
+		if(categoryGroupID == 1)
+			filterCategories("offline", 5);// column index == 5 is hidden
+		else if(categoryGroupID == 2)
+			filterCategories("online", 5);// column index == 5 is hidden
+		else
+			filterCategories("true", 4);// favorite column
 	}
 
 	protected void itemStateChangedCboExerciseGroup(ItemEvent e) {

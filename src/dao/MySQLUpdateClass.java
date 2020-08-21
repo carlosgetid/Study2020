@@ -3,7 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-import connectToDB.MySQLConnect;
+import dbConnection.MySQLConnect;
 
 public class MySQLUpdateClass {
 	public void updateClass (String name, int ID) {;

@@ -1,9 +1,9 @@
-package intefaces;
+package interfaces;
 
 import java.util.ArrayList;
 
 import entities.Category;
 
 public interface CategoryDAO {
-	ArrayList<Category> readCategories();
+	public ArrayList<Category> readCategories();
 }

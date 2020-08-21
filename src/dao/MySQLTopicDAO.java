@@ -6,9 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import connectToDB.MySQLConnect;
+import dbConnection.MySQLConnect;
 import entities.Topic;
-import intefaces.topicDAO;
+import interfaces.topicDAO;
 
 public class MySQLTopicDAO implements topicDAO{
 

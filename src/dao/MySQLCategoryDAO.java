@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import connectToDB.MySQLConnect;
+import dbConnection.MySQLConnect;
 import entities.Category;
-import intefaces.CategoryDAO;
+import interfaces.CategoryDAO;
 
 public class MySQLCategoryDAO implements CategoryDAO{
 
@@ -19,7 +19,7 @@ public class MySQLCategoryDAO implements CategoryDAO{
 		ResultSet rs = null;
 		try {
 			cn=MySQLConnect.getConnection();
-			String sql="select * from tb_category";
+			String sql="SELECT category_ID, category_Name, category_Date, category_Favorite FROM tb_category";
 			pstm=cn.prepareStatement(sql);
 			rs=pstm.executeQuery();
 			Category c;
