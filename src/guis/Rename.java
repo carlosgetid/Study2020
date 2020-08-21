@@ -102,15 +102,15 @@ public class Rename extends JDialog implements ActionListener{
 	}
 
 	protected void actionPerformedBtnSave(ActionEvent e) {
-		// make an update in database
+//		update database
 		MySQLUpdateClass asd = new MySQLUpdateClass();
 		asd.updateClass(txtName.getText(), (int) table.getValueAt(table.getSelectedRow(), 0));
 		
 		/*** refresh content, two options ***/
-		// A. bring data from DB and load all rows again
+//		A. bring data from DB and load all rows again
 //		MainMenu.showTableContent();
 		
-		// B. don't bring data from DB, update only the cell name
+//		B. don't bring data from DB, update only the cell name
 		table.setValueAt(txtName.getText(), table.getSelectedRow(), 2);
 		
 		dispose();

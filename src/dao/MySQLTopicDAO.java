@@ -8,9 +8,9 @@ import java.util.ArrayList;
 
 import dbConnection.MySQLConnect;
 import entities.Topic;
-import interfaces.topicDAO;
+import interfaces.TopicDAO;
 
-public class MySQLTopicDAO implements topicDAO{
+public class MySQLTopicDAO implements TopicDAO{
 
 	@Override
 	public ArrayList<Topic> readTopics() {

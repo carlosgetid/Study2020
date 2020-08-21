@@ -254,10 +254,10 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 		}
 	}
 	protected void actionPerformedBtnAdd(ActionEvent e) {
-		
 	}
 
 	protected void actionPerformedBtnNewCategory(ActionEvent e) {
+		Create gui = new Create();
 		
 	}
 
