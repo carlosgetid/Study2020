@@ -12,7 +12,7 @@ import javax.swing.text.Document;
 
 import components.ButtonEnablement;
 import components.TextFieldLimit;
-import dao.MySQLUpdateClass;
+import controller.MySQLUpdateClass;
 
 import java.awt.event.ActionEvent;
 

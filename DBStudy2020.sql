@@ -72,3 +72,7 @@ select * from tb_topic;
 insert into tb_category (category_Name, category_Favorite) values ('cat1',false);
 insert into tb_category (category_Name, category_Favorite) values ('cat2',true);
 insert into tb_category (category_Name, category_Favorite) values ('cat3',false);
+insert into tb_category (category_Name, category_Favorite) values ('cat4',false);
+insert into tb_category (category_Name, category_Favorite) values ('cat5',false);
+insert into tb_category (category_Name, category_Favorite) values ('cat6',true);
+insert into tb_category (category_Name, category_Favorite) values ('cat7',false);

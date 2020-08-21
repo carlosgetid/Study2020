@@ -1,4 +1,4 @@
-package dao;
+package controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -12,24 +12,26 @@ import interfaces.CategoryDAO;
 public class MySQLCategoryDAO implements CategoryDAO{
 
 	@Override
-	public ArrayList<Category> readCategories() {
+	public ArrayList<Category> listAllCategories() {
 		ArrayList<Category> list = new ArrayList<Category>();
+		Category bean = null;
 		Connection cn = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
 		try {
-			cn=MySQLConnect.getConnection();
-			String sql="SELECT category_ID, category_Name, category_Date, category_Favorite FROM tb_category";
-			pstm=cn.prepareStatement(sql);
-			rs=pstm.executeQuery();
-			Category c;
+			cn = MySQLConnect.getConnection();
+			String sql = "SELECT category_ID, category_Name, category_Date, category_Favorite FROM tb_category";
+			pstm = cn.prepareStatement(sql);
+			rs = pstm.executeQuery();
+			
 			while(rs.next()) {
-				c=new Category();
-				c.setCategoryID(rs.getInt(1));
-				c.setCategoryName(rs.getString(2));
-				c.setCategoryDatetime(rs.getTimestamp(3));
-				c.setCategoryFavorite(rs.getBoolean(4));
-				list.add(c);
+				bean = new Category();
+				bean.setCategoryID(rs.getInt(1));
+				bean.setCategoryName(rs.getString(2));
+				bean.setCategoryDatetime(rs.getTimestamp(3));
+				bean.setCategoryFavorite(rs.getBoolean(4));
+				
+				list.add(bean);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

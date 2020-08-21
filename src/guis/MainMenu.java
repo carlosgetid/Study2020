@@ -20,7 +20,7 @@ import javax.swing.table.TableRowSorter;
 import components.ButtonEditor;
 import components.ButtonRenderer;
 import components.TopicTableModel;
-import dao.MySQLTopicDAO;
+import controller.MySQLTopicDAO;
 import entities.Topic;
 
 import java.awt.event.ItemListener;

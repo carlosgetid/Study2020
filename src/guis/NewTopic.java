@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import components.TopicTableModel;
-import dao.MySQLCategoryDAO;
+import controller.MySQLCategoryDAO;
 import entities.Category;
 
 import java.awt.event.ActionEvent;
@@ -110,7 +110,6 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 			
 			tblCategories.setModel(tblModel);
 			
-			// column widths
 			tblCategories.getColumnModel().getColumn(0).setMinWidth(0);
 			tblCategories.getColumnModel().getColumn(0).setMaxWidth(0);
 			tblCategories.getColumnModel().getColumn(0).setWidth(0);
@@ -118,8 +117,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 			tblCategories.getColumnModel().getColumn(5).setMaxWidth(0);
 			tblCategories.getColumnModel().getColumn(5).setWidth(0);
 			
-			
-			showTableContent();
+			showCategories();
 			
 			filterCategories("true", 4);
 			
@@ -223,19 +221,19 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 	}
 	
 	
-	private void showTableContent() {
+	private void showCategories() {
 		// clear table content
 		tblModel.setRowCount(0);
 		
 		msCatDAO = new MySQLCategoryDAO();
 		
-		for(Category c:msCatDAO.readCategories()) {
+		for(Category bean:msCatDAO.listAllCategories()) {
 			Object row[] = {
-					c.getCategoryID(),
-					c.isCategorySelected(),
-					c.getCategoryName(),
-					sdf.format(c.getCategoryDatetime()),
-					c.isCategoryFavorite(),
+					bean.getCategoryID(),
+					bean.isCategorySelected(),
+					bean.getCategoryName(),
+					sdf.format(bean.getCategoryDatetime()),
+					bean.isCategoryFavorite(),
 					"offline"
 			};
 			tblModel.addRow(row);
@@ -257,7 +255,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 	}
 
 	protected void actionPerformedBtnNewCategory(ActionEvent e) {
-		Create gui = new Create();
+//		Create gui = new Create();
 		
 	}
 

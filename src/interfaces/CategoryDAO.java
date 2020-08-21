@@ -5,5 +5,6 @@ import java.util.ArrayList;
 import entities.Category;
 
 public interface CategoryDAO {
-	public ArrayList<Category> readCategories();
+	public ArrayList<Category> listAllCategories();
+	
 }

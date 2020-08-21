@@ -18,7 +18,7 @@ import javax.swing.text.Document;
 import arrays.ArrayOffCategories;
 import components.ButtonEnablement;
 import components.TextFieldLimit;
-import dao.MySQLUpdateClass;
+import controller.MySQLUpdateClass;
 import entities.Category;
 
 public class Create extends JDialog implements ActionListener{
