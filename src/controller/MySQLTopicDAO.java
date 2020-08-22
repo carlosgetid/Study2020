@@ -6,7 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import dbConnection.MySQLConnect;
+import dbConnection.MySQLConnection;
 import entities.Topic;
 import interfaces.TopicDAO;
 
@@ -19,7 +19,7 @@ public class MySQLTopicDAO implements TopicDAO{
 		PreparedStatement pstm=null;
 		ResultSet rs=null;
 		try {
-			cn=MySQLConnect.getConnection();
+			cn=MySQLConnection.getConnection();
 			String sql="select * from tb_topic";
 			pstm=cn.prepareStatement(sql);
 			rs=pstm.executeQuery();

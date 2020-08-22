@@ -26,8 +26,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
-public class NewTopic extends JFrame implements ActionListener, ItemListener {
+public class NewTopic extends JFrame implements ActionListener, ItemListener, KeyListener {
 
 	TopicTableModel tblModel;
 	MySQLCategoryDAO msCatDAO;
@@ -86,6 +88,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 		
 		/*** Search category text box ***/
 		txtSearchCategory = new JTextField();
+		txtSearchCategory.addKeyListener(this);
 		txtSearchCategory.setBounds(483, 83, 96, 20);
 		contentPane.add(txtSearchCategory);
 		
@@ -119,6 +122,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 			
 			showCategories();
 			
+//			only show favorite categories
 			filterCategories("true", 4);
 			
 			spCategories.setViewportView(tblCategories);
@@ -255,8 +259,8 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 	}
 
 	protected void actionPerformedBtnNewCategory(ActionEvent e) {
-//		Create gui = new Create();
-		
+		Create gui = new Create();
+		gui.setVisible(true);
 	}
 
 	protected void actionPerformedBtnNewExercise(ActionEvent e) {
@@ -282,5 +286,18 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 	}
 
 	protected void itemStateChangedCboExerciseGroup(ItemEvent e) {
+	}
+	public void keyPressed(KeyEvent e) {
+	}
+	public void keyReleased(KeyEvent e) {
+		if (e.getSource() == txtSearchCategory) {
+			keyReleasedTxtSearchCategory(e);
+		}
+	}
+	public void keyTyped(KeyEvent e) {
+	}
+	protected void keyReleasedTxtSearchCategory(KeyEvent e) {
+		String input = txtSearchCategory.getText();
+		filterCategories(input, 2);
 	}
 }

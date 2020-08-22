@@ -1,4 +1,8 @@
-/dao/
+/components/
+/controller/
+/dbConnection/
+/entities/
+/factory/
 /guis/
 /interfaces/
-/controller/
+/services/
