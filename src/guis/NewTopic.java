@@ -20,19 +20,20 @@ import javax.swing.table.TableRowSorter;
 import components.TopicTableModel;
 import controller.MySQLCategoryDAO;
 import entities.Category;
+import services.CategoryService;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
 public class NewTopic extends JFrame implements ActionListener, ItemListener, KeyListener {
 
-	TopicTableModel tblModel;
-	MySQLCategoryDAO msCatDAO;
+	public static TopicTableModel tblModel;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 	
 	private JPanel contentPane;
@@ -51,6 +52,8 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	private JScrollPane spSelectedExercises;
 	private JTextArea txtSelectedExercises;
 	private int categoryGroupID;
+	
+	private CategoryService categoryService = new CategoryService();
 	
 	/**
 	 * Launch the application.
@@ -120,7 +123,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			tblCategories.getColumnModel().getColumn(5).setMaxWidth(0);
 			tblCategories.getColumnModel().getColumn(5).setWidth(0);
 			
-			showCategories();
+			loadCategories();
 			
 //			only show favorite categories
 			filterCategories("true", 4);
@@ -225,13 +228,12 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	}
 	
 	
-	private void showCategories() {
-		// clear table content
-		tblModel.setRowCount(0);
+	private void loadCategories() {
+//		call service
+		ArrayList<Category> list = categoryService.listAllCategories();
 		
-		msCatDAO = new MySQLCategoryDAO();
-		
-		for(Category bean:msCatDAO.listAllCategories()) {
+//		read each category and put its values in a array
+		for(Category bean:list) {
 			Object row[] = {
 					bean.getCategoryID(),
 					bean.isCategorySelected(),
@@ -240,6 +242,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 					bean.isCategoryFavorite(),
 					"offline"
 			};
+			
 			tblModel.addRow(row);
 		}
 	}
@@ -259,7 +262,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	}
 
 	protected void actionPerformedBtnNewCategory(ActionEvent e) {
-		Create gui = new Create();
+		Create gui = new Create(tblModel);
 		gui.setVisible(true);
 	}
 

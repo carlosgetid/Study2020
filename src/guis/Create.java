@@ -1,10 +1,10 @@
 package guis;
 
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
 
+import components.TopicTableModel;
 import entities.Category;
 import services.CategoryService;
 
@@ -13,19 +13,26 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class Create extends JDialog implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3642710321787124367L;
 	private JTextField txtName;
 	private JButton btnCreate;
 	private JButton btnCancel;
 	private CategoryService categoryService = new CategoryService();
 	private JCheckBox checkFavorities;
-	
+	public TopicTableModel tblModel;
+	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 
 	public static void main(String[] args) {
 		try {
-			Create dialog = new Create();
+			Create dialog = new Create(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -33,7 +40,8 @@ public class Create extends JDialog implements ActionListener {
 		}
 	}
 
-	public Create() {
+	public Create(TopicTableModel tblModel) {
+		this.tblModel = tblModel;
 		setBounds(100, 100, 399, 236);
 		getContentPane().setLayout(null);
 		{
@@ -69,15 +77,42 @@ public class Create extends JDialog implements ActionListener {
 		}
 	}
 	protected void actionPerformedBtnCreate(ActionEvent e) {
+		String name = txtName.getText();
+		Boolean favorite = checkFavorities.isSelected();
+		
 		Category bean = new Category();
-		bean.setCategoryName(txtName.getText());
-		bean.setCategoryFavorite(checkFavorities.isSelected());
+		bean.setCategoryName(name);
+		bean.setCategoryFavorite(favorite);
+		
+//		call service
 		int output = categoryService.insertCategory(bean);
-		if(output != -1)
-			showMessage("Category created");
+		
+		if(output != -1) {
+			int ID;
+			int rowCount = tblModel.getRowCount();
+			
+//			get the last category ID used and plus 1
+			if(rowCount != 0)
+				ID = (int) tblModel.getValueAt(rowCount-1, 0) + 1;
+			else
+				ID = 2001;
+			
+			Object row[] = {
+					ID,
+					false,
+					name,
+					sdf.format(new Date()),
+					favorite,
+					"offline"
+					};
+			tblModel.addRow(row);
+
+			showMessage("Category created successfully");
+		}
 		else
 			showMessage("Error");
 	}
+	
 	private void showMessage(String string) {
 		JOptionPane.showMessageDialog(this, string);		
 	}
