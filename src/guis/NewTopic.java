@@ -19,6 +19,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import components.TableListener;
 import components.TopicTableModel;
 import controller.MySQLCategoryDAO;
 import entities.Category;
@@ -35,7 +36,7 @@ import java.awt.event.KeyEvent;
 
 public class NewTopic extends JFrame implements ActionListener, ItemListener, KeyListener {
 
-	public static TopicTableModel tblModel;
+	private TopicTableModel tblModel;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 	
 	private JPanel contentPane;
@@ -55,11 +56,10 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	private JTextArea txtSelectedExercises;
 	private int categoryGroupID;
 	
+	TableListener tableListener;
+	
 	private CategoryService categoryService = new CategoryService();
 	
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -73,9 +73,6 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public NewTopic() {
 		setTitle("New topic");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -103,16 +100,6 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		contentPane.add(spCategories);
 		
 			tblModel = new TopicTableModel();
-			
-			// column headings
-			tblModel.addColumn("");//0 // ID // hidden column
-			tblModel.addColumn("Selection");//1
-			tblModel.addColumn("Name");//2
-			tblModel.addColumn("Creation date");//3
-			tblModel.addColumn("Favorite");//4
-			tblModel.addColumn("");//5 // offline or online // hidden column
-			tblModel.addColumn("");//6
-			tblModel.addColumn("");//7
 		
 			tblCategories = new JTable();
 			
@@ -130,13 +117,17 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 //			only show favorite categories
 			filterCategories("true", 4);
 			
-			tblModel.addTableModelListener(new TableModelListener() {
-				
-				@Override
-				public void tableChanged(TableModelEvent e) {
-                      System.out.println(">\t"+tblCategories.getValueAt(tblCategories.getSelectedRow(), 2));
-				}
-			});
+//			tblModel.addTableModelListener(new TableModelListener() {
+//				
+//				@Override
+//				public void tableChanged(TableModelEvent e) {
+//                      System.out.println(">\t"+tblCategories.getValueAt(tblCategories.getSelectedRow(), 2));
+//				}
+//			});
+			
+//			read changes by checkboxes
+			tableListener = new TableListener(tblCategories);
+			tblModel.addTableModelListener(tableListener);
 			
 			spCategories.setViewportView(tblCategories);
 		
