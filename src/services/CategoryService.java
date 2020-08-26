@@ -16,4 +16,7 @@ public class CategoryService {
 	public ArrayList<Category> listAllCategories(){
 		return categoryDAO.listAllCategories();
 	}
+	public int updateCategory(Category bean) {
+		return categoryDAO.updateCategory(bean);
+	}
 }

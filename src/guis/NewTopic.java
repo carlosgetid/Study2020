@@ -14,6 +14,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -127,6 +129,14 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			
 //			only show favorite categories
 			filterCategories("true", 4);
+			
+			tblModel.addTableModelListener(new TableModelListener() {
+				
+				@Override
+				public void tableChanged(TableModelEvent e) {
+                      System.out.println(">\t"+tblCategories.getValueAt(tblCategories.getSelectedRow(), 2));
+				}
+			});
 			
 			spCategories.setViewportView(tblCategories);
 		

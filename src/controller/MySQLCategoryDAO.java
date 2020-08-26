@@ -73,4 +73,31 @@ public class MySQLCategoryDAO implements CategoryDAO{
 		}
 		return output;
 	}
+
+	@Override
+	public int updateCategory(Category bean) {
+		int output = -1;
+		Connection cn = null;
+		PreparedStatement pstm = null;
+		try {
+			cn = MySQLConnection.getConnection();
+			String sql = "update tb_category set category_Name = ?, category_Favorite = ? where category_ID = ?";
+			pstm = cn.prepareStatement(sql);
+			pstm.setString(1, bean.getCategoryName());
+			pstm.setBoolean(2, bean.isCategoryFavorite());
+			pstm.setInt(3, bean.getCategoryID());
+			output = pstm.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(pstm != null) pstm.close();
+				if(cn != null) cn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return output;
+	}
 }

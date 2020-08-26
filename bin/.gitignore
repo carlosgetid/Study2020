@@ -1,8 +1,5 @@
-/components/
-/controller/
-/dbConnection/
-/entities/
-/factory/
 /guis/
 /interfaces/
 /services/
+/controller/
+/components/
