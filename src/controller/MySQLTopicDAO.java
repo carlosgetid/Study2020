@@ -1,4 +1,4 @@
-package dao;
+package controller;
 
 import java.lang.reflect.Field;
 import java.sql.Connection;
@@ -6,11 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-import connectToDB.MySQLConnect;
+import dbConnection.MySQLConnection;
 import entities.Topic;
-import intefaces.topicDAO;
+import interfaces.TopicDAO;
 
-public class MySQLTopicDAO implements topicDAO{
+public class MySQLTopicDAO implements TopicDAO{
 
 	@Override
 	public ArrayList<Topic> readTopics() {
@@ -19,7 +19,7 @@ public class MySQLTopicDAO implements topicDAO{
 		PreparedStatement pstm=null;
 		ResultSet rs=null;
 		try {
-			cn=MySQLConnect.getConnection();
+			cn=MySQLConnection.getConnection();
 			String sql="select * from tb_topic";
 			pstm=cn.prepareStatement(sql);
 			rs=pstm.executeQuery();

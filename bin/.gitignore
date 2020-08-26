@@ -1,6 +1,12 @@
 /guis/
+<<<<<<< HEAD
 /controllers/
 /dao/
 /intefaces/
 /entities/
+=======
+/interfaces/
+/services/
+/controller/
+>>>>>>> Categories
 /components/

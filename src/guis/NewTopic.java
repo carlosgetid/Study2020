@@ -14,23 +14,29 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import components.TableListener;
 import components.TopicTableModel;
-import dao.MySQLCategoryDAO;
+import controller.MySQLCategoryDAO;
 import entities.Category;
+import services.CategoryService;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyEvent;
 
-public class NewTopic extends JFrame implements ActionListener, ItemListener {
+public class NewTopic extends JFrame implements ActionListener, ItemListener, KeyListener {
 
-	TopicTableModel tblModel;
-	MySQLCategoryDAO msCatDAO;
+	private TopicTableModel tblModel;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 	
 	private JPanel contentPane;
@@ -48,10 +54,12 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 	private JTextArea txtSelectedCategories;
 	private JScrollPane spSelectedExercises;
 	private JTextArea txtSelectedExercises;
+	private int categoryGroupID;
 	
-	/**
-	 * Launch the application.
-	 */
+	TableListener tableListener;
+	
+	private CategoryService categoryService = new CategoryService();
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -65,9 +73,6 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public NewTopic() {
 		setTitle("New topic");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -85,6 +90,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 		
 		/*** Search category text box ***/
 		txtSearchCategory = new JTextField();
+		txtSearchCategory.addKeyListener(this);
 		txtSearchCategory.setBounds(483, 83, 96, 20);
 		contentPane.add(txtSearchCategory);
 		
@@ -94,22 +100,11 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 		contentPane.add(spCategories);
 		
 			tblModel = new TopicTableModel();
-			
-			// column headings
-			tblModel.addColumn("");//0 // ID // hidden column
-			tblModel.addColumn("Selection");//1
-			tblModel.addColumn("Name");//2
-			tblModel.addColumn("Creation date");//3
-			tblModel.addColumn("Favorite");//4
-			tblModel.addColumn("");//5 // offline or online // hidden column
-			tblModel.addColumn("");//6
-			tblModel.addColumn("");//7
 		
 			tblCategories = new JTable();
 			
 			tblCategories.setModel(tblModel);
 			
-			// column widths
 			tblCategories.getColumnModel().getColumn(0).setMinWidth(0);
 			tblCategories.getColumnModel().getColumn(0).setMaxWidth(0);
 			tblCategories.getColumnModel().getColumn(0).setWidth(0);
@@ -117,10 +112,22 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 			tblCategories.getColumnModel().getColumn(5).setMaxWidth(0);
 			tblCategories.getColumnModel().getColumn(5).setWidth(0);
 			
+			loadCategories();
 			
-			showTableContent();
-			
+//			only show favorite categories
 			filterCategories("true", 4);
+			
+//			tblModel.addTableModelListener(new TableModelListener() {
+//				
+//				@Override
+//				public void tableChanged(TableModelEvent e) {
+//                      System.out.println(">\t"+tblCategories.getValueAt(tblCategories.getSelectedRow(), 2));
+//				}
+//			});
+			
+//			read changes by checkboxes
+			tableListener = new TableListener(tblCategories);
+			tblModel.addTableModelListener(tableListener);
 			
 			spCategories.setViewportView(tblCategories);
 		
@@ -140,9 +147,11 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 		btnAdd.setBounds(490, 30, 89, 23);
 		contentPane.add(btnAdd);
 		
+		/*** Groups of categories in combo box ***/
+		
 		cboCategoryGroup = new JComboBox<String>();
-		cboCategoryGroup.addItemListener(this);
 		cboCategoryGroup.setModel(new DefaultComboBoxModel<String>(new String[] {"Favorites", "My categories", "Online categories"}));
+		cboCategoryGroup.addItemListener(this);
 		cboCategoryGroup.setBounds(84, 82, 96, 22);
 		contentPane.add(cboCategoryGroup);
 		
@@ -220,21 +229,21 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 	}
 	
 	
-	private void showTableContent() {
-		// clear table content
-		tblModel.setRowCount(0);
+	private void loadCategories() {
+//		call service
+		ArrayList<Category> list = categoryService.listAllCategories();
 		
-		msCatDAO = new MySQLCategoryDAO();
-		
-		for(Category c:msCatDAO.readCategories()) {
+//		read each category and put its values in a array
+		for(Category bean:list) {
 			Object row[] = {
-					c.getCategoryID(),
-					c.isCategorySelected(),
-					c.getCategoryName(),
-					sdf.format(c.getCategoryDatetime()),
-					c.isCategoryFavorite(),
+					bean.getCategoryID(),
+					bean.isCategorySelected(),
+					bean.getCategoryName(),
+					sdf.format(bean.getCategoryDatetime()),
+					bean.isCategoryFavorite(),
 					"offline"
 			};
+			
 			tblModel.addRow(row);
 		}
 	}
@@ -251,11 +260,11 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 		}
 	}
 	protected void actionPerformedBtnAdd(ActionEvent e) {
-		
 	}
 
 	protected void actionPerformedBtnNewCategory(ActionEvent e) {
-		
+		Create gui = new Create(tblModel);
+		gui.setVisible(true);
 	}
 
 	protected void actionPerformedBtnNewExercise(ActionEvent e) {
@@ -271,9 +280,28 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener {
 	}
 	
 	protected void itemStateChangedCboCategoryGroup(ItemEvent e) {
-		
+		categoryGroupID = cboCategoryGroup.getSelectedIndex();
+		if(categoryGroupID == 1)
+			filterCategories("offline", 5);// column index == 5 is hidden
+		else if(categoryGroupID == 2)
+			filterCategories("online", 5);// column index == 5 is hidden
+		else
+			filterCategories("true", 4);// favorite column
 	}
 
 	protected void itemStateChangedCboExerciseGroup(ItemEvent e) {
+	}
+	public void keyPressed(KeyEvent e) {
+	}
+	public void keyReleased(KeyEvent e) {
+		if (e.getSource() == txtSearchCategory) {
+			keyReleasedTxtSearchCategory(e);
+		}
+	}
+	public void keyTyped(KeyEvent e) {
+	}
+	protected void keyReleasedTxtSearchCategory(KeyEvent e) {
+		String input = txtSearchCategory.getText();
+		filterCategories(input, 2);
 	}
 }

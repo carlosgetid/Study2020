@@ -20,7 +20,7 @@ import javax.swing.table.TableRowSorter;
 import components.ButtonEditor;
 import components.ButtonRenderer;
 import components.TopicTableModel;
-import dao.MySQLTopicDAO;
+import controller.MySQLTopicDAO;
 import entities.Topic;
 
 import java.awt.event.ItemListener;
@@ -37,8 +37,8 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	MySQLTopicDAO msTopDAO;
 	TopicTableModel tblModel;
+	MySQLTopicDAO msTopDAO;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 	
 	private JPanel contentPane;
@@ -154,7 +154,7 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 			btnNewTopic.setBounds(395, 194, 114, 23);
 			pnlTopics.add(btnNewTopic);
 			
-			/*** Topics group combo box ***/
+			/*** Groups of topics in combo box ***/
 			cboTopicGroup = new JComboBox<String>();
 			cboTopicGroup.setModel(new DefaultComboBoxModel<String>(new String[] {"Favorites", "My topics", "Online topics"}));
 			cboTopicGroup.addItemListener(this);
