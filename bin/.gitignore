@@ -1,2 +1,7 @@
-/components/
 /guis/
+/interfaces/
+/services/
+/controller/
+/components/
+/dbConnection/
+/factory/

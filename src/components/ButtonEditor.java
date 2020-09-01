@@ -18,13 +18,10 @@ public class ButtonEditor extends DefaultCellEditor{
 	protected JButton button;
 	private String label;
 	private boolean isPushed;
-	private String entityName;
 	private JTable table;
-	private int columnIndex;
-	
-	public ButtonEditor(JCheckBox checkBox,String entityName, JTable table, int columnIndex) {
+ 	
+	public ButtonEditor(JCheckBox checkBox, JTable table, int columnIndex) {
 		super(checkBox);
-		this.entityName=entityName;
 		this.table=table;
 		button = new JButton();
 		button.setOpaque(true);
@@ -60,7 +57,7 @@ public class ButtonEditor extends DefaultCellEditor{
 	@Override
 	public Object getCellEditorValue() {
 		if(isPushed) {
-			Rename gui = new Rename(entityName, table, 70);
+			Rename gui = new Rename(table, 70);
 			gui.setVisible(true);
 		}
 		isPushed = false;

@@ -32,7 +32,7 @@ public class Rename extends JDialog implements ActionListener{
 	 */
 	public static void main(String[] args) {
 		try {
-			Rename dialog = new Rename(null, null, 100);
+			Rename dialog = new Rename(null, 100);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -43,10 +43,10 @@ public class Rename extends JDialog implements ActionListener{
 	/**
 	 * Create the dialog.
 	 */
-	public Rename(String entityName, JTable table, int maxValue) {
+	public Rename(JTable table, int maxValue) {
 		this.table=table;
 		setModal(true);
-		setTitle("Rename "+entityName);
+		setTitle("Rename "+table.getName());
 		setBounds(100, 100, 399, 162);
 		getContentPane().setLayout(null);
 		

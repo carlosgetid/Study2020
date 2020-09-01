@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,6 +20,8 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import components.ButtonEditor;
+import components.ButtonRenderer;
 import components.TableListener;
 import components.TopicTableModel;
 import controller.MySQLCategoryDAO;
@@ -105,12 +108,20 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			
 			tblCategories.setModel(tblModel);
 			
+			
 			tblCategories.getColumnModel().getColumn(0).setMinWidth(0);
 			tblCategories.getColumnModel().getColumn(0).setMaxWidth(0);
 			tblCategories.getColumnModel().getColumn(0).setWidth(0);
 			tblCategories.getColumnModel().getColumn(5).setMinWidth(0);
 			tblCategories.getColumnModel().getColumn(5).setMaxWidth(0);
 			tblCategories.getColumnModel().getColumn(5).setWidth(0);
+			
+			tblCategories.setName("category");
+			// set buttons Rename and Delete on table
+			tblCategories.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
+			tblCategories.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), tblCategories, 6));
+			tblCategories.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer(7));
+			tblCategories.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox(), tblCategories, 7));
 			
 			loadCategories();
 			
