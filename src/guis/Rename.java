@@ -12,7 +12,8 @@ import javax.swing.text.Document;
 
 import components.ButtonEnablement;
 import components.TextFieldLimit;
-import controller.MySQLUpdateClass;
+import entities.Category;
+import services.CategoryService;
 
 import java.awt.event.ActionEvent;
 
@@ -26,6 +27,7 @@ public class Rename extends JDialog implements ActionListener{
 	private JButton btnSave;
 	private JButton btnCancel;
 	private JTable table;
+	CategoryService categoryService = new CategoryService();
 
 	/**
 	 * Launch the application.
@@ -102,16 +104,19 @@ public class Rename extends JDialog implements ActionListener{
 	}
 
 	protected void actionPerformedBtnSave(ActionEvent e) {
-//		update database
-		MySQLUpdateClass asd = new MySQLUpdateClass();
-		asd.updateClass(txtName.getText(), (int) table.getValueAt(table.getSelectedRow(), 0));
+		int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+		String name = txtName.getText();
+		boolean favorite = (boolean) table.getValueAt(table.getSelectedRow(), 4);
 		
-		/*** refresh content, two options ***/
-//		A. bring data from DB and load all rows again
-//		MainMenu.showTableContent();
+		Category bean = new Category();
+		bean.setCategoryID(id);
+		bean.setCategoryName(name);
+		bean.setCategoryFavorite(favorite);
 		
-//		B. don't bring data from DB, update only the cell name
-		table.setValueAt(txtName.getText(), table.getSelectedRow(), 2);
+//		call service
+		categoryService.updateCategory(bean);
+		
+		table.setValueAt(name, table.getSelectedRow(), 2);
 		
 		dispose();
 	}

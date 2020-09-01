@@ -11,6 +11,7 @@ import services.CategoryService;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -27,7 +28,7 @@ public class Create extends JDialog implements ActionListener {
 	private JButton btnCancel;
 	private CategoryService categoryService = new CategoryService();
 	private JCheckBox checkFavorities;
-	public TopicTableModel tblModel;
+	private TopicTableModel tblModel;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 
 	public static void main(String[] args) {
@@ -41,6 +42,7 @@ public class Create extends JDialog implements ActionListener {
 	}
 
 	public Create(TopicTableModel tblModel) {
+		setModal(true);
 		this.tblModel = tblModel;
 		setBounds(100, 100, 399, 236);
 		getContentPane().setLayout(null);
@@ -111,6 +113,7 @@ public class Create extends JDialog implements ActionListener {
 		}
 		else
 			showMessage("Error");
+		dispose();
 	}
 	
 	private void showMessage(String string) {
