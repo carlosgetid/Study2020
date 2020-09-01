@@ -11,6 +11,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JTable;
 
+import guis.Delete;
 import guis.Rename;
 
 public class ButtonEditor extends DefaultCellEditor{
@@ -19,10 +20,12 @@ public class ButtonEditor extends DefaultCellEditor{
 	private String label;
 	private boolean isPushed;
 	private JTable table;
- 	
+ 	private int columnIndex;
+	
 	public ButtonEditor(JCheckBox checkBox, JTable table, int columnIndex) {
 		super(checkBox);
-		this.table=table;
+		this.table = table;
+		this.columnIndex = columnIndex;
 		button = new JButton();
 		button.setOpaque(true);
 		button.addActionListener(new ActionListener() {
@@ -57,8 +60,14 @@ public class ButtonEditor extends DefaultCellEditor{
 	@Override
 	public Object getCellEditorValue() {
 		if(isPushed) {
-			Rename gui = new Rename(table, 70);
-			gui.setVisible(true);
+			if(columnIndex == 6) {
+				Rename gui = new Rename(table, 70);
+				gui.setVisible(true);				
+			}
+			else {
+				Delete gui = new Delete(table);
+				gui.setVisible(true);
+			}
 		}
 		isPushed = false;
 		return label;

@@ -19,4 +19,7 @@ public class CategoryService {
 	public int updateCategory(Category bean) {
 		return categoryDAO.updateCategory(bean);
 	}
+	public int deleteCategory(int id) {
+		return categoryDAO.deleteCategory(id);
+	}
 }

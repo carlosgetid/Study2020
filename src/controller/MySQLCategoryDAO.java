@@ -100,4 +100,29 @@ public class MySQLCategoryDAO implements CategoryDAO{
 		}
 		return output;
 	}
+
+	@Override
+	public int deleteCategory(int id) {
+		int output = -1;
+		Connection cn = null;
+		PreparedStatement pstm = null;
+		try {
+			cn = MySQLConnection.getConnection();
+			String sql = "delete from tb_category where category_ID=?";
+			pstm = cn.prepareStatement(sql);
+			pstm.setInt(1, id);
+			output = pstm.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(pstm != null) pstm.close();
+				if(cn != null) cn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return output;
+	}
 }
