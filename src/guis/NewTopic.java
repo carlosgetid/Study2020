@@ -119,9 +119,9 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			tblCategories.setName("category");
 			// set buttons Rename and Delete on table
 			tblCategories.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
-			tblCategories.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), tblCategories, 6));
+			tblCategories.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), tblCategories, 6, tblModel));
 			tblCategories.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer(7));
-			tblCategories.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox(), tblCategories, 7));
+			tblCategories.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox(), tblCategories, 7, tblModel));
 			
 			loadCategories();
 			

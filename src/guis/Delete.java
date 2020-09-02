@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
+import components.TopicTableModel;
 import services.CategoryService;
 
 public class Delete extends JDialog implements ActionListener {
@@ -17,11 +18,12 @@ public class Delete extends JDialog implements ActionListener {
 	private JButton btnYes;
 	private JLabel lblName;
 	private JButton btnCancel;
+	private TopicTableModel tableModel;
 	CategoryService categoryService = new CategoryService();
 
 	public static void main(String[] args) {
 		try {
-			Delete dialog = new Delete(null);
+			Delete dialog = new Delete(null, null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -29,8 +31,9 @@ public class Delete extends JDialog implements ActionListener {
 		}
 	}
 
-	public Delete(JTable table) {
+	public Delete(TopicTableModel tableModel,JTable table) {
 		this.table = table;
+		this.tableModel = tableModel;
 		setModal(true);
 		setTitle("Delete "+table.getName());
 		setBounds(100, 100, 399, 162);
@@ -38,7 +41,6 @@ public class Delete extends JDialog implements ActionListener {
 		
 		/*** Yes button ***/
 		btnYes = new JButton("Yes");
-		btnYes.setEnabled(false);
 		btnYes.addActionListener(this);
 		btnYes.setBounds(182, 82, 89, 23);
 		getContentPane().add(btnYes);
@@ -78,10 +80,15 @@ public class Delete extends JDialog implements ActionListener {
 	}
 
 	private void actionPerformedBtnYes(ActionEvent e) {
-		int id = (int) table.getValueAt(table.getSelectedRow(), 0);
+		int rowIndex = table.getSelectedRow();
+		int id = (int) table.getValueAt(rowIndex, 0);
 		categoryService.deleteCategory(id);
 		
+		table.getSelectionModel().clearSelection();
 		
+		tableModel.removeRow(rowIndex);
+		
+		dispose();
 	}
 
 }

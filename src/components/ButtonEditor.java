@@ -21,11 +21,13 @@ public class ButtonEditor extends DefaultCellEditor{
 	private boolean isPushed;
 	private JTable table;
  	private int columnIndex;
+ 	private TopicTableModel tableModel;
 	
-	public ButtonEditor(JCheckBox checkBox, JTable table, int columnIndex) {
+	public ButtonEditor(JCheckBox checkBox, JTable table, int columnIndex, TopicTableModel tableModel) {
 		super(checkBox);
 		this.table = table;
 		this.columnIndex = columnIndex;
+		this.tableModel = tableModel;
 		button = new JButton();
 		button.setOpaque(true);
 		button.addActionListener(new ActionListener() {
@@ -65,7 +67,7 @@ public class ButtonEditor extends DefaultCellEditor{
 				gui.setVisible(true);				
 			}
 			else {
-				Delete gui = new Delete(table);
+				Delete gui = new Delete(tableModel, table);
 				gui.setVisible(true);
 			}
 		}
