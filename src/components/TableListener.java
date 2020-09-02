@@ -11,18 +11,21 @@ import services.CategoryService;
 public class TableListener implements TableModelListener{
 
 	private JTable table;
+	private TopicTableModel tableModel;
 	CategoryService categoryService = new CategoryService();
 	
-	public TableListener(JTable table) {
+	public TableListener(TopicTableModel tableModel, JTable table) {
+		this.tableModel = tableModel;
 		this.table = table;
 	}
 
 	@Override
 	public void tableChanged(TableModelEvent e) {
 		if(table.getSelectedRows().length != 0) {
-			int id = (int) table.getValueAt(table.getSelectedRow(), 0);
-			String name = (String) table.getValueAt(table.getSelectedRow(), 2);
-			boolean favorite = (boolean) table.getValueAt(table.getSelectedRow(), 4);
+//			better handle it by tableModel instead of table
+			int id = (int) tableModel.getValueAt(table.getSelectedRow(), 0);
+			String name = (String) tableModel.getValueAt(table.getSelectedRow(), 2);
+			boolean favorite = (boolean) tableModel.getValueAt(table.getSelectedRow(), 4);
 		
 			Category bean = new Category();
 			bean.setCategoryID(id);

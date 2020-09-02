@@ -137,7 +137,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 //			});
 			
 //			read changes by checkboxes
-			tableListener = new TableListener(tblCategories);
+			tableListener = new TableListener(tblModel, tblCategories);
 			tblModel.addTableModelListener(tableListener);
 			
 			spCategories.setViewportView(tblCategories);
