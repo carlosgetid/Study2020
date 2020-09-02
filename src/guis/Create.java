@@ -11,7 +11,6 @@ import services.CategoryService;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
 
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -19,9 +18,6 @@ import java.util.Date;
 import java.awt.event.ActionEvent;
 
 public class Create extends JDialog implements ActionListener {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3642710321787124367L;
 	private JTextField txtName;
 	private JButton btnCreate;
@@ -30,7 +26,8 @@ public class Create extends JDialog implements ActionListener {
 	private JCheckBox checkFavorities;
 	private TopicTableModel tblModel;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
-
+	private int id;
+	
 	public static void main(String[] args) {
 		try {
 			Create dialog = new Create(null);
@@ -42,6 +39,7 @@ public class Create extends JDialog implements ActionListener {
 	}
 
 	public Create(TopicTableModel tblModel) {
+		id = categoryService.getNextAutoIncrementID();
 		setModal(true);
 		this.tblModel = tblModel;
 		setBounds(100, 100, 399, 236);
@@ -86,21 +84,11 @@ public class Create extends JDialog implements ActionListener {
 		bean.setCategoryName(name);
 		bean.setCategoryFavorite(favorite);
 		
-//		call service
 		int output = categoryService.insertCategory(bean);
 		
 		if(output != -1) {
-			int ID;
-			int rowCount = tblModel.getRowCount();
-			
-//			get the last category ID used and plus 1
-			if(rowCount != 0)
-				ID = (int) tblModel.getValueAt(rowCount-1, 0) + 1;
-			else
-				ID = 2001;
-			
 			Object row[] = {
-					ID,
+					id,
 					false,
 					name,
 					sdf.format(new Date()),

@@ -59,6 +59,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	private JTextArea txtSelectedExercises;
 	private int categoryGroupID;
 	
+	
 	TableListener tableListener;
 	
 	private CategoryService categoryService = new CategoryService();
@@ -109,9 +110,9 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			tblCategories.setModel(tblModel);
 			
 			
-			tblCategories.getColumnModel().getColumn(0).setMinWidth(0);
-			tblCategories.getColumnModel().getColumn(0).setMaxWidth(0);
-			tblCategories.getColumnModel().getColumn(0).setWidth(0);
+//			tblCategories.getColumnModel().getColumn(0).setMinWidth(0);
+//			tblCategories.getColumnModel().getColumn(0).setMaxWidth(0);
+//			tblCategories.getColumnModel().getColumn(0).setWidth(0);
 			tblCategories.getColumnModel().getColumn(5).setMinWidth(0);
 			tblCategories.getColumnModel().getColumn(5).setMaxWidth(0);
 			tblCategories.getColumnModel().getColumn(5).setWidth(0);

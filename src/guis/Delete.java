@@ -82,12 +82,12 @@ public class Delete extends JDialog implements ActionListener {
 	private void actionPerformedBtnYes(ActionEvent e) {
 		int rowIndex = table.getSelectedRow();
 		int id = (int) table.getValueAt(rowIndex, 0);
+		System.out.println(id);
 		categoryService.deleteCategory(id);
 		
 		table.getSelectionModel().clearSelection();
 		
 		tableModel.removeRow(rowIndex);
-		
 		dispose();
 	}
 

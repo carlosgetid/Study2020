@@ -22,4 +22,8 @@ public class CategoryService {
 	public int deleteCategory(int id) {
 		return categoryDAO.deleteCategory(id);
 	}
+	
+	public int getNextAutoIncrementID() {
+		return categoryDAO.getNextAutoIncrementID();
+	}
 }

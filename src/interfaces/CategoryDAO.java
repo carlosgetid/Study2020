@@ -9,4 +9,5 @@ public interface CategoryDAO {
 	public ArrayList<Category> listAllCategories();
 	public int updateCategory(Category bean);
 	public int deleteCategory(int id);
+	public int getNextAutoIncrementID();
 }
