@@ -20,7 +20,9 @@ public class Delete extends JDialog implements ActionListener {
 	private JButton btnCancel;
 	private TopicTableModel tableModel;
 	CategoryService categoryService = new CategoryService();
-
+	private int rowIndex;
+	
+	
 	public static void main(String[] args) {
 		try {
 			Delete dialog = new Delete(null, null);
@@ -34,6 +36,8 @@ public class Delete extends JDialog implements ActionListener {
 	public Delete(TopicTableModel tableModel,JTable table) {
 		this.table = table;
 		this.tableModel = tableModel;
+		rowIndex = table.getSelectedRow();
+		System.out.println(rowIndex);
 		setModal(true);
 		setTitle("Delete "+table.getName());
 		setBounds(100, 100, 399, 162);
@@ -63,6 +67,7 @@ public class Delete extends JDialog implements ActionListener {
 		JLabel lblAreYouSure = new JLabel("Are you sure you want to delete this "+table.getName()+"?");
 		lblAreYouSure.setBounds(10, 11, 363, 14);
 		getContentPane().add(lblAreYouSure);
+		
 	}
 
 	@Override
@@ -80,14 +85,17 @@ public class Delete extends JDialog implements ActionListener {
 	}
 
 	private void actionPerformedBtnYes(ActionEvent e) {
-		int rowIndex = table.getSelectedRow();
 		int id = (int) table.getValueAt(rowIndex, 0);
-		System.out.println(id);
 		categoryService.deleteCategory(id);
 		
-		table.getSelectionModel().clearSelection();
+		System.out.println(id);
 		
-		tableModel.removeRow(rowIndex);
+		int modelIndex = table.convertRowIndexToModel(rowIndex);
+		System.out.println();
+		TopicTableModel model = (TopicTableModel) table.getModel();
+		
+		table.getSelectionModel().clearSelection();
+		model.removeRow(modelIndex);
 		dispose();
 	}
 

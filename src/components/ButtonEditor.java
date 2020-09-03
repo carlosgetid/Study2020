@@ -34,7 +34,7 @@ public class ButtonEditor extends DefaultCellEditor{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				fireEditingStopped();
+				getCellEditorValue();
 			}
 		});
 
