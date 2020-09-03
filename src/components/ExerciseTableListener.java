@@ -1,22 +1,21 @@
 package components;
 
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 
-import entities.Category;
-import services.CategoryService;
+import entities.Exercise;
+import services.ExerciseService;
 
-public class TableListener implements TableModelListener{
+public class ExerciseTableListener implements TableModelListener{
 
 	private JTable table;
 	private TopicTableModel tableModel;
-	CategoryService categoryService = new CategoryService();
+	ExerciseService exerciseService = new ExerciseService();
 	private JTextArea jTextArea;
 	
-	public TableListener(TopicTableModel tableModel, JTable table, JTextArea jTextArea) {
+	public ExerciseTableListener(TopicTableModel tableModel, JTable table, JTextArea jTextArea) {
 		this.tableModel = tableModel;
 		this.table = table;
 		this.jTextArea = jTextArea;
@@ -28,16 +27,15 @@ public class TableListener implements TableModelListener{
 		if(table.getSelectedRows().length != 0) {
 			if(table.getSelectedColumn()==4) {
 				int id = (int) table.getValueAt(table.getSelectedRow(), 0);
-				String name = (String) table.getValueAt(table.getSelectedRow(), 2);
+				String text = (String) table.getValueAt(table.getSelectedRow(), 2);
 				boolean favorite = (boolean) table.getValueAt(table.getSelectedRow(), 4);
-				Category bean = new Category();
-				bean.setCategoryID(id);
-				bean.setCategoryName(name);
-				bean.setCategoryFavorite(favorite);
 				
-//				call service
-				categoryService.updateCategory(bean);
-			
+				Exercise bean = new Exercise();
+				bean.setExerciseID(id);
+				bean.setExerciseText(text);
+				bean.setExerciseFavorite(favorite);
+				
+				exerciseService.updateExercise(bean);
 			}
 		}
 		
