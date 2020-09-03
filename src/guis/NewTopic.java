@@ -137,10 +137,6 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 //				}
 //			});
 			
-//			read changes by checkboxes
-			tableListener = new TableListener(tblModel, tblCategories);
-			tblModel.addTableModelListener(tableListener);
-			
 			spCategories.setViewportView(tblCategories);
 		
 		/*** Exercise table ***/
@@ -223,6 +219,10 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			spSelectedCategories.setViewportView(txtSelectedCategories);
 			txtSelectedCategories.setEditable(false);
 		
+//			read changes by checkboxes
+			tableListener = new TableListener(tblModel, tblCategories, txtSelectedCategories);
+			tblModel.addTableModelListener(tableListener);
+			
 		/*** Selected exercises text box ***/
 		spSelectedExercises = new JScrollPane();
 		spSelectedExercises.setBounds(28, 544, 550, 77);
