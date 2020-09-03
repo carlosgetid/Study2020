@@ -63,7 +63,7 @@ public class ButtonEditor extends DefaultCellEditor{
 	public Object getCellEditorValue() {
 		if(isPushed) {
 			if(columnIndex == 6) {
-				Rename gui = new Rename(table, 70);
+				Rename gui = new Rename(table, 50);
 				gui.setVisible(true);				
 			}
 			else {

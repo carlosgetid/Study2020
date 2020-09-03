@@ -37,7 +37,6 @@ public class Delete extends JDialog implements ActionListener {
 		this.table = table;
 		this.tableModel = tableModel;
 		rowIndex = table.getSelectedRow();
-		System.out.println(rowIndex);
 		setModal(true);
 		setTitle("Delete "+table.getName());
 		setBounds(100, 100, 399, 162);

@@ -275,7 +275,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	}
 
 	protected void actionPerformedBtnNewCategory(ActionEvent e) {
-		Create gui = new Create(tblModel);
+		Create gui = new Create(tblModel, 50);
 		gui.setVisible(true);
 	}
 
