@@ -1,6 +1,7 @@
 package factory;
 
 import interfaces.CategoryDAO;
+import interfaces.ExerciseDAO;
 
 public abstract class DAOFactory {
 	public static final int mysql = 1;
@@ -8,6 +9,7 @@ public abstract class DAOFactory {
 	public static final int sqlserver = 3;
 	
 	public abstract CategoryDAO getCategoryDAO();
+	public abstract ExerciseDAO getExerciseDAO();
 	
 	public static DAOFactory getDaoFactory(int whichFactory) {
 		switch (whichFactory) {
