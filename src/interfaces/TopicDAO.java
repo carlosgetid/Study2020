@@ -5,6 +5,6 @@ import java.util.ArrayList;
 import entities.Topic;
 
 public interface TopicDAO {
-	//public int insertTopic (Topic t);
+	public int insertTopic (Topic bean);
 	ArrayList<Topic> readTopics();
 }
