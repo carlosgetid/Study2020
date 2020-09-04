@@ -198,13 +198,13 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 //		new category button
 		btnNewCategory = new JButton("New category");
 		btnNewCategory.addActionListener(this);
-		btnNewCategory.setBounds(425, 233, 154, 23);
+		btnNewCategory.setBounds(425, 232, 154, 23);
 		contentPane.add(btnNewCategory);
 		
 //		new exercise button
 		btnNewExercise = new JButton("New exercise");
 		btnNewExercise.addActionListener(this);
-		btnNewExercise.setBounds(425, 503, 154, 23);
+		btnNewExercise.setBounds(425, 518, 154, 23);
 		contentPane.add(btnNewExercise);
 		
 		JLabel lblName = new JLabel("Name");
@@ -331,6 +331,8 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	}
 
 	protected void actionPerformedBtnNewExercise(ActionEvent e) {
+		Create gui = new Create(exerciseTableModel, 200);
+		gui.setVisible(true);
 	}
 
 	public void itemStateChanged(ItemEvent e) {

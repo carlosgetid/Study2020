@@ -10,6 +10,7 @@ import javax.swing.JTable;
 
 import components.StudyTableModel;
 import services.CategoryService;
+import services.ExerciseService;
 
 public class Delete extends JDialog implements ActionListener {
 
@@ -20,7 +21,9 @@ public class Delete extends JDialog implements ActionListener {
 	private JButton btnCancel;
 	private StudyTableModel tableModel;
 	CategoryService categoryService = new CategoryService();
+	ExerciseService exerciseService = new ExerciseService();
 	private int rowIndex;
+	private int tableID;
 	
 	
 	public static void main(String[] args) {
@@ -36,13 +39,17 @@ public class Delete extends JDialog implements ActionListener {
 	public Delete(StudyTableModel tableModel,JTable table) {
 		this.table = table;
 		this.tableModel = tableModel;
+		
 		rowIndex = table.getSelectedRow();
+		
 		setModal(true);
 		setTitle("Delete "+table.getName());
 		setBounds(100, 100, 399, 162);
 		getContentPane().setLayout(null);
 		
-		/*** Yes button ***/
+		tableID = table.getName().equals("category") ? 1 : 2;
+		
+//		yes button
 		btnYes = new JButton("Yes");
 		btnYes.addActionListener(this);
 		btnYes.setBounds(182, 82, 89, 23);
@@ -52,17 +59,16 @@ public class Delete extends JDialog implements ActionListener {
 		lblName.setBounds(10, 49, 363, 14);
 		getContentPane().add(lblName);
 		
-//		get selected category name
+//		get name of selected category/exercise
 		Object x=table.getValueAt(table.getSelectedRow(), 2);
 		lblName.setText((String) x);
 		
-		/*** Cancel button ***/
+//		cancel button
 		btnCancel = new JButton("Cancel");
 		btnCancel.addActionListener(this);
 		btnCancel.setBounds(284, 82, 89, 23);
 		getContentPane().add(btnCancel);
 		
-		/*** Question label ***/
 		JLabel lblAreYouSure = new JLabel("Are you sure you want to delete this "+table.getName()+"?");
 		lblAreYouSure.setBounds(10, 11, 363, 14);
 		getContentPane().add(lblAreYouSure);
@@ -85,13 +91,16 @@ public class Delete extends JDialog implements ActionListener {
 
 	private void actionPerformedBtnYes(ActionEvent e) {
 		int id = (int) table.getValueAt(rowIndex, 0);
-		categoryService.deleteCategory(id);
+		if(tableID == 1)
+			categoryService.deleteCategory(id);
+		else
+			exerciseService.deleteExercise(id);
 		
 		int modelIndex = table.convertRowIndexToModel(rowIndex);
-		StudyTableModel model = (StudyTableModel) table.getModel();
 		
 		table.getSelectionModel().clearSelection();
-		model.removeRow(modelIndex);
+		tableModel.removeRow(modelIndex);
+		
 		dispose();
 	}
 

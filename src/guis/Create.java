@@ -10,11 +10,12 @@ import components.ButtonEnablement;
 import components.TextFieldLimit;
 import components.StudyTableModel;
 import entities.Category;
+import entities.Exercise;
 import services.CategoryService;
+import services.ExerciseService;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -28,8 +29,9 @@ public class Create extends JDialog implements ActionListener {
 	private JButton btnCreate;
 	private JButton btnCancel;
 	private CategoryService categoryService = new CategoryService();
+	private ExerciseService exerciseService = new ExerciseService();
 	private JCheckBox checkFavorities;
-	private StudyTableModel tblModel;
+	private StudyTableModel tableModel;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 	private int id;
 	private int maxValue;
@@ -44,15 +46,17 @@ public class Create extends JDialog implements ActionListener {
 		}
 	}
 
-	public Create(StudyTableModel tblModel, int maxValue) {
-		this.tblModel = tblModel;
+	public Create(StudyTableModel tableModel, int maxValue) {
+		this.tableModel = tableModel;
 		this.maxValue = maxValue;
 		if(maxValue == 50) {
 			setTitle("Create category");
 			id = categoryService.getNextAutoIncrementID();
 		}
-		else
+		else {
 			setTitle("Create exercise");
+			id = exerciseService.getNextAutoIncrementID();
+		}
 		
 		setModal(true);
 		setBounds(100, 100, 399, 236);
@@ -102,40 +106,40 @@ public class Create extends JDialog implements ActionListener {
 		}
 	}
 	protected void actionPerformedBtnCreate(ActionEvent e) {
+		String name = txtName.getText();
+		Boolean favorite = checkFavorities.isSelected();
+		
 //		create category
 		if(maxValue == 50) {
-			String name = txtName.getText();
-			Boolean favorite = checkFavorities.isSelected();
-			
 			Category bean = new Category();
 			bean.setCategoryName(name);
 			bean.setCategoryFavorite(favorite);
 			
-			int output = categoryService.insertCategory(bean);
-			
-//			add category in table
-			if(output != -1) {
-				Object row[] = {
-						id,
-						false,
-						name,
-						sdf.format(new Date()),
-						favorite,
-						"offline"
-						};
-				tblModel.addRow(row);
-
-				showMessage("Category created successfully");
-			}
-			else
-				showMessage("Error");
-			dispose();
+			categoryService.insertCategory(bean);
 		}
+		else {
+			Exercise bean = new Exercise();
+			bean.setExerciseText(name);
+			bean.setExerciseFavorite(favorite);
+			
+			exerciseService.insertExercise(bean);
+		}
+			
+			Object row[] = {
+					id,
+					false,
+					name,
+					sdf.format(new Date()),
+					favorite,
+					"offline"
+					};
+			tableModel.addRow(row);		
+		dispose();
 	}
 	
-	private void showMessage(String string) {
-		JOptionPane.showMessageDialog(this, string);		
-	}
+//	private void showMessage(String string) {
+//		JOptionPane.showMessageDialog(this, string);		
+//	}
 
 	protected void actionPerformedBtnCancel(ActionEvent e) {
 		dispose();

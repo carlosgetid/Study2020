@@ -21,7 +21,7 @@ import java.awt.event.ActionEvent;
 
 public class Rename extends JDialog implements ActionListener{
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 596974366428160452L;
 	private JTextField txtName;
 	private JButton btnSave;
 	private JButton btnCancel;
@@ -66,7 +66,7 @@ public class Rename extends JDialog implements ActionListener{
 //		limit characters in field
 		txtName.setDocument(new TextFieldLimit(maxValue));
 		
-//		get name of selected category
+//		get name of selected category/exercise
 		Object x = table.getValueAt(table.getSelectedRow(), 2);
 		txtName.setText((String) x);
 		
