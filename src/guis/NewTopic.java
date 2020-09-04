@@ -92,7 +92,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-//		text box name of topic
+//		text box for topic name
 		txtTopicName = new JTextField();
 		txtTopicName.setBounds(84, 30, 96, 20);
 		contentPane.add(txtTopicName);
