@@ -16,14 +16,15 @@ import guis.Rename;
 
 public class ButtonEditor extends DefaultCellEditor{
 	
+	private static final long serialVersionUID = 5113884378389554430L;
 	protected JButton button;
 	private String label;
 	private boolean isPushed;
 	private JTable table;
  	private int columnIndex;
- 	private TopicTableModel tableModel;
+ 	private StudyTableModel tableModel;
 	
-	public ButtonEditor(JCheckBox checkBox, JTable table, int columnIndex, TopicTableModel tableModel) {
+	public ButtonEditor(JCheckBox checkBox, JTable table, int columnIndex, StudyTableModel tableModel) {
 		super(checkBox);
 		this.table = table;
 		this.columnIndex = columnIndex;

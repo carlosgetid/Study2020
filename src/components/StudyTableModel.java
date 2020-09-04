@@ -2,13 +2,10 @@ package components;
 
 import javax.swing.table.DefaultTableModel;
 
-public class TopicTableModel extends DefaultTableModel{
-	/**
-	 * 
-	 */
+public class StudyTableModel extends DefaultTableModel{
 	private static final long serialVersionUID = 1L;
 	
-	public TopicTableModel() {
+	public StudyTableModel() {
 //		column headings
 		addColumn("");//0 // ID // hidden column
 		addColumn("Selection");//1

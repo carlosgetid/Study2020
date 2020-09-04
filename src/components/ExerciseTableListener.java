@@ -11,11 +11,11 @@ import services.ExerciseService;
 public class ExerciseTableListener implements TableModelListener{
 
 	private JTable table;
-	private TopicTableModel tableModel;
+	private StudyTableModel tableModel;
 	ExerciseService exerciseService = new ExerciseService();
 	private JTextArea jTextArea;
 	
-	public ExerciseTableListener(TopicTableModel tableModel, JTable table, JTextArea jTextArea) {
+	public ExerciseTableListener(StudyTableModel tableModel, JTable table, JTextArea jTextArea) {
 		this.tableModel = tableModel;
 		this.table = table;
 		this.jTextArea = jTextArea;

@@ -19,7 +19,7 @@ import javax.swing.table.TableRowSorter;
 
 import components.ButtonEditor;
 import components.ButtonRenderer;
-import components.TopicTableModel;
+import components.StudyTableModel;
 import controller.MySQLTopicDAO;
 import entities.Topic;
 
@@ -37,7 +37,7 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	TopicTableModel tblModel;
+	StudyTableModel tblModel;
 	MySQLTopicDAO msTopDAO;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 	
@@ -106,7 +106,7 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 			spTopics.setBounds(10, 42, 499, 153);
 			pnlTopics.add(spTopics);
 				
-				tblModel = new TopicTableModel();
+				tblModel = new StudyTableModel();
 				
 				// column headings
 				tblModel.addColumn("");//0 // ID // hidden column

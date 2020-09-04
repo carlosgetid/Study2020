@@ -15,8 +15,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -24,8 +22,7 @@ import components.ButtonEditor;
 import components.ButtonRenderer;
 import components.CategoryTableListener;
 import components.ExerciseTableListener;
-import components.TopicTableModel;
-import controller.MySQLCategoryDAO;
+import components.StudyTableModel;
 import entities.Category;
 import entities.Exercise;
 import services.CategoryService;
@@ -43,8 +40,8 @@ import java.awt.event.KeyEvent;
 public class NewTopic extends JFrame implements ActionListener, ItemListener, KeyListener {
 
 	private static final long serialVersionUID = -9139193141198867504L;
-	private TopicTableModel tblModel;
-	private TopicTableModel exerciseTableModel;
+	private StudyTableModel categoryTableModel;
+	private StudyTableModel exerciseTableModel;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 	
 	private JPanel contentPane;
@@ -66,7 +63,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	private int exerciseGroupID;
 	
 	
-	CategoryTableListener tableListener;
+	CategoryTableListener categoryTableListener;
 	ExerciseTableListener exerciseTableListener;
 	
 	private CategoryService categoryService = new CategoryService();
@@ -111,11 +108,11 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		spCategories.setBounds(28, 119, 552, 115);
 		contentPane.add(spCategories);
 		
-			tblModel = new TopicTableModel();
+			categoryTableModel = new StudyTableModel();
 		
 			tblCategories = new JTable();
 			
-			tblCategories.setModel(tblModel);
+			tblCategories.setModel(categoryTableModel);
 			
 //			hidden columns
 			tblCategories.getColumnModel().getColumn(0).setMinWidth(0);
@@ -128,9 +125,9 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			// set buttons Rename and Delete on table
 			tblCategories.setName("category");			
 			tblCategories.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
-			tblCategories.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), tblCategories, 6, tblModel));
+			tblCategories.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), tblCategories, 6, categoryTableModel));
 			tblCategories.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer(7));
-			tblCategories.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox(), tblCategories, 7, tblModel));
+			tblCategories.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox(), tblCategories, 7, categoryTableModel));
 			
 			loadCategories();
 			
@@ -150,7 +147,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		spExercises.setBounds(28, 405, 552, 115);
 		contentPane.add(spExercises);
 		
-			exerciseTableModel = new TopicTableModel();
+			exerciseTableModel = new StudyTableModel();
 			
 			tblExercises = new JTable();
 			
@@ -163,6 +160,13 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			tblExercises.getColumnModel().getColumn(5).setMinWidth(0);
 			tblExercises.getColumnModel().getColumn(5).setMaxWidth(0);
 			tblExercises.getColumnModel().getColumn(5).setWidth(0);
+			
+			// set buttons Rename and Delete on table
+			tblExercises.setName("exercise");			
+			tblExercises.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
+			tblExercises.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), tblExercises, 6, exerciseTableModel));
+			tblExercises.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer(7));
+			tblExercises.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox(), tblExercises, 7, exerciseTableModel));
 			
 			loadExercises();
 			
@@ -236,8 +240,8 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			txtSelectedCategories.setEditable(false);
 		
 //			read changes by checkboxes
-			tableListener = new CategoryTableListener(tblModel, tblCategories, txtSelectedCategories);
-			tblModel.addTableModelListener(tableListener);
+			categoryTableListener = new CategoryTableListener(categoryTableModel, tblCategories, txtSelectedCategories);
+			categoryTableModel.addTableModelListener(categoryTableListener);
 			
 //		text box for selected exercises
 		spSelectedExercises = new JScrollPane();
@@ -282,7 +286,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	}
 
 	private void filterCategories(String input, int columnIndex) {
-		TableRowSorter<DefaultTableModel> trs = new TableRowSorter<DefaultTableModel>(tblModel);
+		TableRowSorter<DefaultTableModel> trs = new TableRowSorter<DefaultTableModel>(categoryTableModel);
 		tblCategories.setRowSorter(trs);
 		
 		trs.setRowFilter(RowFilter.regexFilter(input, columnIndex));
@@ -303,7 +307,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 					"offline"
 			};
 			
-			tblModel.addRow(row);
+			categoryTableModel.addRow(row);
 		}
 	}
 
@@ -322,7 +326,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	}
 
 	protected void actionPerformedBtnNewCategory(ActionEvent e) {
-		Create gui = new Create(tblModel, 50);
+		Create gui = new Create(categoryTableModel, 50);
 		gui.setVisible(true);
 	}
 

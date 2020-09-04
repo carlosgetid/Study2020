@@ -8,7 +8,7 @@ import javax.swing.text.Document;
 
 import components.ButtonEnablement;
 import components.TextFieldLimit;
-import components.TopicTableModel;
+import components.StudyTableModel;
 import entities.Category;
 import services.CategoryService;
 
@@ -29,7 +29,7 @@ public class Create extends JDialog implements ActionListener {
 	private JButton btnCancel;
 	private CategoryService categoryService = new CategoryService();
 	private JCheckBox checkFavorities;
-	private TopicTableModel tblModel;
+	private StudyTableModel tblModel;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 	private int id;
 	private int maxValue;
@@ -44,7 +44,7 @@ public class Create extends JDialog implements ActionListener {
 		}
 	}
 
-	public Create(TopicTableModel tblModel, int maxValue) {
+	public Create(StudyTableModel tblModel, int maxValue) {
 		this.tblModel = tblModel;
 		this.maxValue = maxValue;
 		if(maxValue == 50) {

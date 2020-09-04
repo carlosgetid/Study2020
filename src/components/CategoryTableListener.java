@@ -11,11 +11,11 @@ import services.CategoryService;
 public class CategoryTableListener implements TableModelListener{
 
 	private JTable table;
-	private TopicTableModel tableModel;
+	private StudyTableModel tableModel;
 	CategoryService categoryService = new CategoryService();
 	private JTextArea jTextArea;
 	
-	public CategoryTableListener(TopicTableModel tableModel, JTable table, JTextArea jTextArea) {
+	public CategoryTableListener(StudyTableModel tableModel, JTable table, JTextArea jTextArea) {
 		this.tableModel = tableModel;
 		this.table = table;
 		this.jTextArea = jTextArea;

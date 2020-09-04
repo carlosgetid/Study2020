@@ -8,7 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 
-import components.TopicTableModel;
+import components.StudyTableModel;
 import services.CategoryService;
 
 public class Delete extends JDialog implements ActionListener {
@@ -18,7 +18,7 @@ public class Delete extends JDialog implements ActionListener {
 	private JButton btnYes;
 	private JLabel lblName;
 	private JButton btnCancel;
-	private TopicTableModel tableModel;
+	private StudyTableModel tableModel;
 	CategoryService categoryService = new CategoryService();
 	private int rowIndex;
 	
@@ -33,7 +33,7 @@ public class Delete extends JDialog implements ActionListener {
 		}
 	}
 
-	public Delete(TopicTableModel tableModel,JTable table) {
+	public Delete(StudyTableModel tableModel,JTable table) {
 		this.table = table;
 		this.tableModel = tableModel;
 		rowIndex = table.getSelectedRow();
@@ -87,11 +87,8 @@ public class Delete extends JDialog implements ActionListener {
 		int id = (int) table.getValueAt(rowIndex, 0);
 		categoryService.deleteCategory(id);
 		
-		System.out.println(id);
-		
 		int modelIndex = table.convertRowIndexToModel(rowIndex);
-		System.out.println();
-		TopicTableModel model = (TopicTableModel) table.getModel();
+		StudyTableModel model = (StudyTableModel) table.getModel();
 		
 		table.getSelectionModel().clearSelection();
 		model.removeRow(modelIndex);
