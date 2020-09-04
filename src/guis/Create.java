@@ -30,7 +30,7 @@ public class Create extends JDialog implements ActionListener {
 	private JButton btnCancel;
 	private CategoryService categoryService = new CategoryService();
 	private ExerciseService exerciseService = new ExerciseService();
-	private JCheckBox checkFavorities;
+	private JCheckBox checkFavorites;
 	private StudyTableModel tableModel;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 	private int id;
@@ -83,9 +83,9 @@ public class Create extends JDialog implements ActionListener {
 		buttonEnablement.addDocument(document);
 		
 //		favorite check box
-		checkFavorities = new JCheckBox("Add to Favorities");
-		checkFavorities.setBounds(6, 78, 194, 23);
-		getContentPane().add(checkFavorities);
+		checkFavorites = new JCheckBox("Add to Favorites");
+		checkFavorites.setBounds(6, 78, 194, 23);
+		getContentPane().add(checkFavorites);
 		
 //		cancel button
 		btnCancel = new JButton("Cancel");
@@ -107,7 +107,7 @@ public class Create extends JDialog implements ActionListener {
 	}
 	protected void actionPerformedBtnCreate(ActionEvent e) {
 		String name = txtName.getText();
-		Boolean favorite = checkFavorities.isSelected();
+		Boolean favorite = checkFavorites.isSelected();
 		
 //		create category
 		if(maxValue == 50) {

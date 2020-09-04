@@ -25,8 +25,10 @@ import components.ExerciseTableListener;
 import components.StudyTableModel;
 import entities.Category;
 import entities.Exercise;
+import entities.Topic;
 import services.CategoryService;
 import services.ExerciseService;
+import services.TopicService;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -68,6 +70,8 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	
 	private CategoryService categoryService = new CategoryService();
 	private ExerciseService exerciseService = new ExerciseService();
+	private TopicService topicService = new TopicService();
+	private JCheckBox checkFavorites;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -94,7 +98,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		
 //		text box for topic name
 		txtTopicName = new JTextField();
-		txtTopicName.setBounds(84, 30, 96, 20);
+		txtTopicName.setBounds(84, 30, 180, 20);
 		contentPane.add(txtTopicName);
 		
 //		text box to search categories
@@ -239,7 +243,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			spSelectedCategories.setViewportView(txtSelectedCategories);
 			txtSelectedCategories.setEditable(false);
 		
-//			read changes by checkboxes
+//			read changes by checkboxes in category table
 			categoryTableListener = new CategoryTableListener(categoryTableModel, tblCategories, txtSelectedCategories);
 			categoryTableModel.addTableModelListener(categoryTableListener);
 			
@@ -255,9 +259,15 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			spSelectedExercises.setViewportView(txtSelectedExercises);
 			txtSelectedExercises.setEditable(false);
 			
-//			read changes by checkboxes
+//			read changes by checkboxes in exercise table
 			exerciseTableListener = new ExerciseTableListener(exerciseTableModel, tblExercises, txtSelectedExercises);
+			
 			exerciseTableModel.addTableModelListener(exerciseTableListener);
+	
+//		favorite check box
+		checkFavorites = new JCheckBox("Add to Favorites");
+		checkFavorites.setBounds(270, 29, 161, 23);
+		contentPane.add(checkFavorites);
 	}
 	
 	private void filterExercises(String input, int columnIndex) {
@@ -323,6 +333,16 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		}
 	}
 	protected void actionPerformedBtnAdd(ActionEvent e) {
+		String name = txtTopicName.getText();
+		boolean favorite = checkFavorites.isSelected();
+		
+		Topic bean = new Topic();
+		bean.setTopicName(name);
+		bean.setTopicFavorite(favorite);
+		
+		topicService.insertTopic(bean);
+		
+		
 	}
 
 	protected void actionPerformedBtnNewCategory(ActionEvent e) {
