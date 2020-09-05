@@ -11,4 +11,8 @@ public class TopicService {
 	public int insertTopic (Topic bean) {
 		return topicDAO.insertTopic(bean);
 	}
+	
+	public int getNextAutoIncrementID() {
+		return topicDAO.getNextAutoIncrementID();
+	}
 }

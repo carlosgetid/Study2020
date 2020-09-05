@@ -1,6 +1,6 @@
 package entities;
 
-public class Category_Exercise {
+public class CategoryExercise {
 	private int categoryID,exerciseID;
 
 	public int getCategoryID() {

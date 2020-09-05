@@ -26,8 +26,12 @@ import components.StudyTableModel;
 import entities.Category;
 import entities.Exercise;
 import entities.Topic;
+import entities.TopicCategory;
+import entities.TopicExercise;
 import services.CategoryService;
 import services.ExerciseService;
+import services.TopicCategoryService;
+import services.TopicExerciseService;
 import services.TopicService;
 
 import java.awt.event.ActionEvent;
@@ -71,10 +75,13 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	private CategoryService categoryService = new CategoryService();
 	private ExerciseService exerciseService = new ExerciseService();
 	private TopicService topicService = new TopicService();
+	private TopicCategoryService topicCategoryService = new TopicCategoryService();
+	private TopicExerciseService topicExerciseService = new TopicExerciseService();
 	
 	private JCheckBox checkFavorites;
 	private ArrayList<Integer> idListSelectedExercises = new ArrayList<Integer>();
 	private ArrayList<Integer> idListSelectedCategories = new ArrayList<Integer>();
+	private int id;
 	
 	
 	
@@ -92,6 +99,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	}
 
 	public NewTopic() {
+		id = topicService.getNextAutoIncrementID();
 		setTitle("New topic");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 620, 696);
@@ -338,21 +346,29 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		}
 	}
 	protected void actionPerformedBtnAdd(ActionEvent e) {
-//		String name = txtTopicName.getText();
-//		boolean favorite = checkFavorites.isSelected();
-//		
-//		Topic bean = new Topic();
-//		bean.setTopicName(name);
-//		bean.setTopicFavorite(favorite);
-//		
-//		topicService.insertTopic(bean);
-//		
+		String name = txtTopicName.getText();
+		boolean favorite = checkFavorites.isSelected();
+		
+		Topic bean = new Topic();
+		bean.setTopicName(name);
+		bean.setTopicFavorite(favorite);
+		
+		topicService.insertTopic(bean);
+		
 		for (int j = 0; j < idListSelectedCategories.size(); j++) {
+			TopicCategory topicCategory = new TopicCategory();
 			System.out.println(idListSelectedCategories.get(j));
+			topicCategory.setTopicID(id);
+			topicCategory.setCategoryID(idListSelectedCategories.get(j));
+			topicCategoryService.insertTopicCategory(topicCategory);
 		}
 		
 		for (int j = 0; j < idListSelectedExercises.size(); j++) {
+			TopicExercise topicExercise = new TopicExercise();
 			System.out.println(idListSelectedExercises.get(j));
+			topicExercise.setTopicID(id);
+			topicExercise.setExerciseID(idListSelectedExercises.get(j));
+			topicExerciseService.insertTopicExercise(topicExercise);
 		}
 		
 	}

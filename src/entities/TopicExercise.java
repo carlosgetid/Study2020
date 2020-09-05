@@ -1,6 +1,6 @@
 package entities;
 
-public class Topic_Exercise {
+public class TopicExercise {
 	private int topicID,exerciseID;
 
 	public int getTopicID() {
