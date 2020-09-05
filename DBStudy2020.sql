@@ -9,7 +9,7 @@ topic_Date timestamp default current_timestamp,
 topic_Favorite boolean default false not null
 );
 
-alter table tb_topic auto_increment=1001;
+alter table tb_topic auto_increment = 1001;
 
 create table tb_category
 (
@@ -19,7 +19,7 @@ category_Date timestamp default current_timestamp,
 category_Favorite boolean default false not null    
 );
 
-alter table tb_category auto_increment=2001;
+alter table tb_category auto_increment = 2001;
 
 create table tb_exercise
 (
@@ -29,7 +29,7 @@ exercise_Date timestamp default current_timestamp,
 exercise_Favorite boolean default false not null
 );
 
-alter table tb_exercise auto_increment=3001;
+alter table tb_exercise auto_increment = 3001;
 
 create table tb_topic_category
 (
@@ -58,6 +58,7 @@ constraint foreign key fk_tb_category_exercise_category_ID(category_ID) referenc
 constraint foreign key fk_tb_category_exercise_exercise_ID(exercise_ID) references tb_exercise (exercise_ID)
 );
 
+/*
 insert into tb_topic (topic_Name, topic_Favorite) values ('Water',false);
 insert into tb_topic (topic_Name, topic_Favorite) values ('Sand',true);
 insert into tb_topic (topic_Name, topic_Favorite) values ('Earth',false);
@@ -69,3 +70,4 @@ select topic_Name, date_format(topic_Date, '%d/%m/%Y %H:%i %p'), topic_Favorite 
 
 select * from tb_topic;
 
+*/

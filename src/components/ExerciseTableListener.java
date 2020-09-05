@@ -1,5 +1,7 @@
 package components;
 
+import java.util.ArrayList;
+
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.event.TableModelEvent;
@@ -14,11 +16,13 @@ public class ExerciseTableListener implements TableModelListener{
 	private StudyTableModel tableModel;
 	ExerciseService exerciseService = new ExerciseService();
 	private JTextArea jTextArea;
+	private ArrayList<Integer> arrayList;
 	
-	public ExerciseTableListener(StudyTableModel tableModel, JTable table, JTextArea jTextArea) {
+	public ExerciseTableListener(StudyTableModel tableModel, JTable table, JTextArea jTextArea, ArrayList<Integer> arrayList) {
 		this.tableModel = tableModel;
 		this.table = table;
 		this.jTextArea = jTextArea;
+		this.arrayList = arrayList;
 	}
 
 	@Override
@@ -41,9 +45,12 @@ public class ExerciseTableListener implements TableModelListener{
 		
 		if(table.getSelectedColumn()==1) {
 			jTextArea.setText("");
+			arrayList.clear();
 			for (int i = 0; i < tableModel.getRowCount(); i++) {
-				if(tableModel.getValueAt(i, 1).equals(true)) 
+				if(tableModel.getValueAt(i, 1).equals(true)) {
 					jTextArea.append(tableModel.getValueAt(i, 2)+ "\t");
+					arrayList.add((Integer) tableModel.getValueAt(i, 0));
+				}
 			}
 		}
 	}

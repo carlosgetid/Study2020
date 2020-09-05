@@ -71,7 +71,12 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	private CategoryService categoryService = new CategoryService();
 	private ExerciseService exerciseService = new ExerciseService();
 	private TopicService topicService = new TopicService();
+	
 	private JCheckBox checkFavorites;
+	private ArrayList<Integer> idListSelectedExercises = new ArrayList<Integer>();
+	private ArrayList<Integer> idListSelectedCategories = new ArrayList<Integer>();
+	
+	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -119,13 +124,13 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			tblCategories.setModel(categoryTableModel);
 			
 //			hidden columns
-			tblCategories.getColumnModel().getColumn(0).setMinWidth(0);
-			tblCategories.getColumnModel().getColumn(0).setMaxWidth(0);
-			tblCategories.getColumnModel().getColumn(0).setWidth(0);
-			tblCategories.getColumnModel().getColumn(5).setMinWidth(0);
-			tblCategories.getColumnModel().getColumn(5).setMaxWidth(0);
-			tblCategories.getColumnModel().getColumn(5).setWidth(0);
-			
+//			tblCategories.getColumnModel().getColumn(0).setMinWidth(0);
+//			tblCategories.getColumnModel().getColumn(0).setMaxWidth(0);
+//			tblCategories.getColumnModel().getColumn(0).setWidth(0);
+//			tblCategories.getColumnModel().getColumn(5).setMinWidth(0);
+//			tblCategories.getColumnModel().getColumn(5).setMaxWidth(0);
+//			tblCategories.getColumnModel().getColumn(5).setWidth(0);
+//			
 			// set buttons Rename and Delete on table
 			tblCategories.setName("category");			
 			tblCategories.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
@@ -158,13 +163,13 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			tblExercises.setModel(exerciseTableModel);
 			
 //			hidden columns
-			tblExercises.getColumnModel().getColumn(0).setMinWidth(0);
-			tblExercises.getColumnModel().getColumn(0).setMaxWidth(0);
-			tblExercises.getColumnModel().getColumn(0).setWidth(0);
-			tblExercises.getColumnModel().getColumn(5).setMinWidth(0);
-			tblExercises.getColumnModel().getColumn(5).setMaxWidth(0);
-			tblExercises.getColumnModel().getColumn(5).setWidth(0);
-			
+//			tblExercises.getColumnModel().getColumn(0).setMinWidth(0);
+//			tblExercises.getColumnModel().getColumn(0).setMaxWidth(0);
+//			tblExercises.getColumnModel().getColumn(0).setWidth(0);
+//			tblExercises.getColumnModel().getColumn(5).setMinWidth(0);
+//			tblExercises.getColumnModel().getColumn(5).setMaxWidth(0);
+//			tblExercises.getColumnModel().getColumn(5).setWidth(0);
+//			
 			// set buttons Rename and Delete on table
 			tblExercises.setName("exercise");			
 			tblExercises.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
@@ -244,7 +249,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			txtSelectedCategories.setEditable(false);
 		
 //			read changes by checkboxes in category table
-			categoryTableListener = new CategoryTableListener(categoryTableModel, tblCategories, txtSelectedCategories);
+			categoryTableListener = new CategoryTableListener(categoryTableModel, tblCategories, txtSelectedCategories, idListSelectedCategories);
 			categoryTableModel.addTableModelListener(categoryTableListener);
 			
 //		text box for selected exercises
@@ -260,7 +265,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			txtSelectedExercises.setEditable(false);
 			
 //			read changes by checkboxes in exercise table
-			exerciseTableListener = new ExerciseTableListener(exerciseTableModel, tblExercises, txtSelectedExercises);
+			exerciseTableListener = new ExerciseTableListener(exerciseTableModel, tblExercises, txtSelectedExercises, idListSelectedExercises);
 			
 			exerciseTableModel.addTableModelListener(exerciseTableListener);
 	
@@ -333,15 +338,22 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		}
 	}
 	protected void actionPerformedBtnAdd(ActionEvent e) {
-		String name = txtTopicName.getText();
-		boolean favorite = checkFavorites.isSelected();
+//		String name = txtTopicName.getText();
+//		boolean favorite = checkFavorites.isSelected();
+//		
+//		Topic bean = new Topic();
+//		bean.setTopicName(name);
+//		bean.setTopicFavorite(favorite);
+//		
+//		topicService.insertTopic(bean);
+//		
+		for (int j = 0; j < idListSelectedCategories.size(); j++) {
+			System.out.println(idListSelectedCategories.get(j));
+		}
 		
-		Topic bean = new Topic();
-		bean.setTopicName(name);
-		bean.setTopicFavorite(favorite);
-		
-		topicService.insertTopic(bean);
-		
+		for (int j = 0; j < idListSelectedExercises.size(); j++) {
+			System.out.println(idListSelectedExercises.get(j));
+		}
 		
 	}
 
