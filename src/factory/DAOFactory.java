@@ -1,6 +1,7 @@
 package factory;
 
 import interfaces.CategoryDAO;
+import interfaces.CategoryExerciseDAO;
 import interfaces.ExerciseDAO;
 import interfaces.TopicCategoryDAO;
 import interfaces.TopicDAO;
@@ -16,6 +17,7 @@ public abstract class DAOFactory {
 	public abstract TopicDAO getTopicDAO();
 	public abstract TopicCategoryDAO getTopicCategoryDAO();
 	public abstract TopicExerciseDAO getTopicExerciseDAO();
+	public abstract CategoryExerciseDAO getCategoryExerciseDAO();
 	
 	public static DAOFactory getDaoFactory(int whichFactory) {
 		switch (whichFactory) {

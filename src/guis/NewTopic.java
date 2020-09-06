@@ -8,6 +8,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -24,10 +25,12 @@ import components.CategoryTableListener;
 import components.ExerciseTableListener;
 import components.StudyTableModel;
 import entities.Category;
+import entities.CategoryExercise;
 import entities.Exercise;
 import entities.Topic;
 import entities.TopicCategory;
 import entities.TopicExercise;
+import services.CategoryExerciseService;
 import services.CategoryService;
 import services.ExerciseService;
 import services.TopicCategoryService;
@@ -77,7 +80,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	private TopicService topicService = new TopicService();
 	private TopicCategoryService topicCategoryService = new TopicCategoryService();
 	private TopicExerciseService topicExerciseService = new TopicExerciseService();
-	
+	private CategoryExerciseService categoryExerciseService = new CategoryExerciseService();
 	private JCheckBox checkFavorites;
 	private ArrayList<Integer> idListSelectedExercises = new ArrayList<Integer>();
 	private ArrayList<Integer> idListSelectedCategories = new ArrayList<Integer>();
@@ -117,7 +120,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 //		text box to search categories
 		txtSearchCategory = new JTextField();
 		txtSearchCategory.addKeyListener(this);
-		txtSearchCategory.setBounds(483, 83, 96, 20);
+		txtSearchCategory.setBounds(446, 83, 133, 20);
 		contentPane.add(txtSearchCategory);
 		
 //		category table
@@ -132,13 +135,13 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			tblCategories.setModel(categoryTableModel);
 			
 //			hidden columns
-//			tblCategories.getColumnModel().getColumn(0).setMinWidth(0);
-//			tblCategories.getColumnModel().getColumn(0).setMaxWidth(0);
-//			tblCategories.getColumnModel().getColumn(0).setWidth(0);
-//			tblCategories.getColumnModel().getColumn(5).setMinWidth(0);
-//			tblCategories.getColumnModel().getColumn(5).setMaxWidth(0);
-//			tblCategories.getColumnModel().getColumn(5).setWidth(0);
-//			
+			tblCategories.getColumnModel().getColumn(0).setMinWidth(0);
+			tblCategories.getColumnModel().getColumn(0).setMaxWidth(0);
+			tblCategories.getColumnModel().getColumn(0).setWidth(0);
+			tblCategories.getColumnModel().getColumn(5).setMinWidth(0);
+			tblCategories.getColumnModel().getColumn(5).setMaxWidth(0);
+			tblCategories.getColumnModel().getColumn(5).setWidth(0);
+			
 			// set buttons Rename and Delete on table
 			tblCategories.setName("category");			
 			tblCategories.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
@@ -156,12 +159,12 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 //		text box to search exercises
 		txtSearchExercise = new JTextField();
 		txtSearchExercise.addKeyListener(this);
-		txtSearchExercise.setBounds(483, 362, 96, 20);
+		txtSearchExercise.setBounds(446, 362, 133, 20);
 		contentPane.add(txtSearchExercise);
 		
 //		exercise table
 		JScrollPane spExercises = new JScrollPane();
-		spExercises.setBounds(28, 405, 552, 115);
+		spExercises.setBounds(28, 400, 552, 115);
 		contentPane.add(spExercises);
 		
 			exerciseTableModel = new StudyTableModel();
@@ -171,13 +174,13 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			tblExercises.setModel(exerciseTableModel);
 			
 //			hidden columns
-//			tblExercises.getColumnModel().getColumn(0).setMinWidth(0);
-//			tblExercises.getColumnModel().getColumn(0).setMaxWidth(0);
-//			tblExercises.getColumnModel().getColumn(0).setWidth(0);
-//			tblExercises.getColumnModel().getColumn(5).setMinWidth(0);
-//			tblExercises.getColumnModel().getColumn(5).setMaxWidth(0);
-//			tblExercises.getColumnModel().getColumn(5).setWidth(0);
-//			
+			tblExercises.getColumnModel().getColumn(0).setMinWidth(0);
+			tblExercises.getColumnModel().getColumn(0).setMaxWidth(0);
+			tblExercises.getColumnModel().getColumn(0).setWidth(0);
+			tblExercises.getColumnModel().getColumn(5).setMinWidth(0);
+			tblExercises.getColumnModel().getColumn(5).setMaxWidth(0);
+			tblExercises.getColumnModel().getColumn(5).setWidth(0);
+			
 			// set buttons Rename and Delete on table
 			tblExercises.setName("exercise");			
 			tblExercises.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
@@ -202,14 +205,14 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		cboCategoryGroup = new JComboBox<String>();
 		cboCategoryGroup.setModel(new DefaultComboBoxModel<String>(new String[] {"Favorites", "My categories", "Online categories"}));
 		cboCategoryGroup.addItemListener(this);
-		cboCategoryGroup.setBounds(84, 82, 96, 22);
+		cboCategoryGroup.setBounds(115, 81, 96, 22);
 		contentPane.add(cboCategoryGroup);
 		
 //		Groups of exercises in combo box 
 		cboExerciseGroup = new JComboBox<String>();
 		cboExerciseGroup.setModel(new DefaultComboBoxModel<String>(new String[] {"Favorites", "My exercises", "Online exercises"}));
 		cboExerciseGroup.addItemListener(this);
-		cboExerciseGroup.setBounds(84, 361, 96, 22);
+		cboExerciseGroup.setBounds(115, 361, 96, 22);
 		contentPane.add(cboExerciseGroup);
 		
 //		new category button
@@ -221,27 +224,27 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 //		new exercise button
 		btnNewExercise = new JButton("New exercise");
 		btnNewExercise.addActionListener(this);
-		btnNewExercise.setBounds(425, 518, 154, 23);
+		btnNewExercise.setBounds(425, 513, 154, 23);
 		contentPane.add(btnNewExercise);
 		
 		JLabel lblName = new JLabel("Name");
 		lblName.setBounds(28, 33, 48, 14);
 		contentPane.add(lblName);
 		
-		JLabel lblCategory = new JLabel("Category");
-		lblCategory.setBounds(28, 85, 89, 14);
-		contentPane.add(lblCategory);
+		JLabel lblCategories = new JLabel("Categories");
+		lblCategories.setBounds(28, 85, 89, 18);
+		contentPane.add(lblCategories);
 		
 		JLabel lblSearch = new JLabel("Search");
-		lblSearch.setBounds(425, 86, 48, 14);
+		lblSearch.setBounds(385, 85, 60, 14);
 		contentPane.add(lblSearch);
 		
 		lblSearch = new JLabel("Search");
-		lblSearch.setBounds(425, 365, 48, 14);
+		lblSearch.setBounds(385, 365, 60, 14);
 		contentPane.add(lblSearch);
 		
 		JLabel lblExercises = new JLabel("Exercises");
-		lblExercises.setBounds(28, 365, 48, 14);
+		lblExercises.setBounds(28, 365, 89, 18);
 		contentPane.add(lblExercises);
 		
 //		text box for selected categories
@@ -262,7 +265,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			
 //		text box for selected exercises
 		spSelectedExercises = new JScrollPane();
-		spSelectedExercises.setBounds(28, 544, 550, 77);
+		spSelectedExercises.setBounds(28, 548, 550, 77);
 		contentPane.add(spSelectedExercises);
 		
 			txtSelectedExercises = new JTextArea();
@@ -355,22 +358,36 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		
 		topicService.insertTopic(bean);
 		
+//		relate the topic with selected categories
 		for (int j = 0; j < idListSelectedCategories.size(); j++) {
 			TopicCategory topicCategory = new TopicCategory();
-			System.out.println(idListSelectedCategories.get(j));
 			topicCategory.setTopicID(id);
 			topicCategory.setCategoryID(idListSelectedCategories.get(j));
 			topicCategoryService.insertTopicCategory(topicCategory);
 		}
 		
+//		relate the topic with selected exercises
 		for (int j = 0; j < idListSelectedExercises.size(); j++) {
 			TopicExercise topicExercise = new TopicExercise();
-			System.out.println(idListSelectedExercises.get(j));
 			topicExercise.setTopicID(id);
 			topicExercise.setExerciseID(idListSelectedExercises.get(j));
 			topicExerciseService.insertTopicExercise(topicExercise);
+			
+//		relate each exercise with all selected categories
+			for (int i = 0; i < idListSelectedCategories.size(); i++) {
+				CategoryExercise categoryExercise = new CategoryExercise();
+				categoryExercise.setCategoryID(idListSelectedCategories.get(i));
+				categoryExercise.setExerciseID(idListSelectedExercises.get(j));
+				categoryExerciseService.insertCategoryExercise(categoryExercise);
+			}
 		}
 		
+		showMessage("Added topic");
+		dispose();
+	}
+	
+	private void showMessage(String string) {
+		JOptionPane.showMessageDialog(this, string);		
 	}
 
 	protected void actionPerformedBtnNewCategory(ActionEvent e) {
