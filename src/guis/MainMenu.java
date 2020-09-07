@@ -22,22 +22,23 @@ import components.ButtonRenderer;
 import components.StudyTableModel;
 import controller.MySQLTopicDAO;
 import entities.Topic;
+import services.TopicService;
 
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.awt.event.ItemEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.DefaultComboBoxModel;
 
-public class MainMenu extends JFrame implements ItemListener, ActionListener {
+public class MainMenu extends JFrame implements ItemListener, ActionListener, KeyListener {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	
-	StudyTableModel tblModel;
+	private static final long serialVersionUID = 2524722470090611331L;
+	StudyTableModel topicTableModel;
 	MySQLTopicDAO msTopDAO;
 	SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy HH:mm a");
 	
@@ -51,10 +52,8 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 	private JComboBox<String> cboTopicGroup;
 	private JTextField txtSearchTopic;
 	private int topicGroupID;
+	private TopicService topicService = new TopicService();
 	
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -68,9 +67,6 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public MainMenu() {
 		setTitle("Main menu");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -81,18 +77,17 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		/*** Tabbed pane ***/
+//		tabbed pane
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.setBounds(10, 11, 527, 431);
 		contentPane.add(tabbedPane);
 		
-		
-		/*** Topic panel ***/
+//		topic panel
 		JPanel pnlTopics = new JPanel();
 		tabbedPane.addTab("Topics", null, pnlTopics, null);
 		pnlTopics.setLayout(null);
 			
-			/*** Info text box ***/
+//			text box for topic info
 			spTopicInfo = new JScrollPane();
 			spTopicInfo.setBounds(10, 237, 499, 121);
 			pnlTopics.add(spTopicInfo);
@@ -101,28 +96,18 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 				spTopicInfo.setViewportView(txtTopicInfo);
 				txtTopicInfo.setEditable(false);
 			
-			/*** Topic table ***/
+//			topic table
 			spTopics = new JScrollPane();
 			spTopics.setBounds(10, 42, 499, 153);
 			pnlTopics.add(spTopics);
 				
-				tblModel = new StudyTableModel();
-				
-				// column headings
-				tblModel.addColumn("");//0 // ID // hidden column
-				tblModel.addColumn("Selection");//1
-				tblModel.addColumn("Name");//2
-				tblModel.addColumn("Creation date");//3
-				tblModel.addColumn("Favorite");//4
-				tblModel.addColumn("");//5 // offline or online // hidden column
-				tblModel.addColumn("");//6
-				tblModel.addColumn("");//7
-								
+				topicTableModel = new StudyTableModel();
+												
 				tblTopics = new JTable();
 				
-				tblTopics.setModel(tblModel);
+				tblTopics.setModel(topicTableModel);
 				
-				// column widths
+//				hidden columns
 				tblTopics.getColumnModel().getColumn(0).setMinWidth(0);
 				tblTopics.getColumnModel().getColumn(0).setMaxWidth(0);
 				tblTopics.getColumnModel().getColumn(0).setWidth(0);
@@ -130,39 +115,40 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 				tblTopics.getColumnModel().getColumn(5).setMaxWidth(0);
 				tblTopics.getColumnModel().getColumn(5).setWidth(0);
 				
-				// set buttons Rename and Delete on table
+//				set buttons Rename and Delete in the table
 				tblTopics.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
-				tblTopics.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), tblTopics, 6, tblModel));
+				tblTopics.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), tblTopics, 6, topicTableModel));
 				tblTopics.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer(7));
-				tblTopics.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox(), tblTopics, 7, tblModel));
+				tblTopics.getColumnModel().getColumn(7).setCellEditor(new ButtonEditor(new JCheckBox(), tblTopics, 7, topicTableModel));
 				
-				showTableContent();
+				loadTopics();
 				
 				filterTopics("true", 4);
 				
 				spTopics.setViewportView(tblTopics);
 			
-			/*** Select button ***/
+//			select button
 			btnSelect = new JButton("Select");
 			btnSelect.addActionListener(this);
 			btnSelect.setBounds(395, 369, 114, 23);
 			pnlTopics.add(btnSelect);
 			
-			/*** New Topic button ***/
+//			new topic button
 			btnNewTopic = new JButton("New topic");
 			btnNewTopic.addActionListener(this);
 			btnNewTopic.setBounds(395, 194, 114, 23);
 			pnlTopics.add(btnNewTopic);
 			
-			/*** Groups of topics in combo box ***/
+//			group of topics in combo box
 			cboTopicGroup = new JComboBox<String>();
 			cboTopicGroup.setModel(new DefaultComboBoxModel<String>(new String[] {"Favorites", "My topics", "Online topics"}));
 			cboTopicGroup.addItemListener(this);
 			cboTopicGroup.setBounds(10, 10, 96, 22);
 			pnlTopics.add(cboTopicGroup);
 			
-			/*** Search text box ***/
+//			text box to search topics
 			txtSearchTopic = new JTextField();
+			txtSearchTopic.addKeyListener(this);
 			txtSearchTopic.setBounds(413, 11, 96, 20);
 			pnlTopics.add(txtSearchTopic);
 			
@@ -173,28 +159,26 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 		tabbedPane.addTab("New tab", null, pnlExercises, null);
 	}
 	private void filterTopics(String input, int columnIndex) {
-		TableRowSorter<DefaultTableModel> trs = new TableRowSorter<DefaultTableModel>(tblModel);
+		TableRowSorter<DefaultTableModel> trs = new TableRowSorter<DefaultTableModel>(topicTableModel);
 		tblTopics.setRowSorter(trs);
 		
 		trs.setRowFilter(RowFilter.regexFilter(input, columnIndex));
 	}
 
-	private void showTableContent() {
-		// clear table content
-		tblModel.setRowCount(0);
+	private void loadTopics() {
+		ArrayList<Topic> arrayList = topicService.listAllTopics();
 		
-		msTopDAO = new MySQLTopicDAO();
-		
-		for(Topic t:msTopDAO.readTopics()) {
+//		read each topic and put its values in a array
+		for(Topic bean:arrayList) {
 			Object row[] = {
-					t.getTopicID(),
-					t.isTopicSelected(),
-					t.getTopicName(),
-					sdf.format(t.getTopicDatetime()),
-					t.isTopicFavorite(),
+					bean.getTopicID(),
+					bean.isTopicSelected(),
+					bean.getTopicName(),
+					sdf.format(bean.getTopicDatetime()),
+					bean.isTopicFavorite(),
 					"offline"
 			};
-			tblModel.addRow(row);
+			topicTableModel.addRow(row);
 		}
 	}
 
@@ -224,7 +208,27 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener {
 		
 	}
 	protected void actionPerformedBtnNewTopic(ActionEvent e) {
-		NewTopic gui = new NewTopic();
+		NewTopic gui = new NewTopic(topicTableModel);
 		gui.setVisible(true);
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		if (e.getSource() == txtSearchTopic) {
+			keyReleasedTxtSearchTopic(e);
+		}
+	}
+
+	private void keyReleasedTxtSearchTopic(KeyEvent e) {
+		String input = txtSearchTopic.getText();
+		filterTopics(input, 2);
 	}
 }

@@ -38,41 +38,6 @@ public class MySQLTopicDAO implements TopicDAO {
 	}
 
 	@Override
-	public ArrayList<Topic> readTopics() {
-	ArrayList<Topic> list = new ArrayList<Topic>();
-	Connection cn=null;
-	PreparedStatement pstm=null;
-	ResultSet rs=null;
-	try {
-		cn=MySQLConnection.getConnection();
-		String sql="select * from tb_topic";
-		pstm=cn.prepareStatement(sql);
-		rs=pstm.executeQuery();
-		Topic t;
-		while(rs.next()) {
-			t=new Topic();
-			t.setTopicID(rs.getInt(1));
-			t.setTopicName(rs.getString(2));
-			t.setTopicDatetime(rs.getTimestamp(3));
-			t.setTopicFavorite(rs.getBoolean(4));
-			list.add(t);
-		}
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-	finally {
-		try {
-			if(rs!=null)rs.close();
-			if(pstm!=null)pstm.close();
-			if(cn!=null)cn.close();
-		} catch (Exception e2) {
-			e2.printStackTrace();
-		}
-	}
-	
-	return list;}
-
-	@Override
 	public int getNextAutoIncrementID() {
 		int id = -1;
 		Connection cn = null;
@@ -99,5 +64,42 @@ public class MySQLTopicDAO implements TopicDAO {
 		}
 		return id;
 	}
+
+	@Override
+	public ArrayList<Topic> listAllTopics() {
+		ArrayList<Topic> list = new ArrayList<Topic>();
+		Topic bean;
+		Connection cn = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		try {
+			cn = MySQLConnection.getConnection();
+			String sql="SELECT topic_ID, topic_Name, topic_Date, topic_Favorite FROM tb_topic";
+			pstm=cn.prepareStatement(sql);
+			rs=pstm.executeQuery();
+			
+			while(rs.next()) {
+				bean = new Topic();
+				bean.setTopicID(rs.getInt(1));
+				bean.setTopicName(rs.getString(2));
+				bean.setTopicDatetime(rs.getTimestamp(3));
+				bean.setTopicFavorite(rs.getBoolean(4));
+				
+				list.add(bean);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				if(rs != null)rs.close();
+				if(pstm != null)pstm.close();
+				if(cn != null)cn.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		
+		return list;}
 
 }

@@ -43,6 +43,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 
@@ -85,14 +86,14 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 	private ArrayList<Integer> idListSelectedExercises = new ArrayList<Integer>();
 	private ArrayList<Integer> idListSelectedCategories = new ArrayList<Integer>();
 	private int id;
-	
+	private StudyTableModel tableModel;
 	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					NewTopic frame = new NewTopic();
+					NewTopic frame = new NewTopic(null);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -101,8 +102,9 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		});
 	}
 
-	public NewTopic() {
+	public NewTopic(StudyTableModel tableModel) {
 		id = topicService.getNextAutoIncrementID();
+		this.tableModel = tableModel;
 		setTitle("New topic");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 620, 696);
@@ -142,7 +144,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			tblCategories.getColumnModel().getColumn(5).setMaxWidth(0);
 			tblCategories.getColumnModel().getColumn(5).setWidth(0);
 			
-			// set buttons Rename and Delete on table
+//			set buttons Rename and Delete in the table
 			tblCategories.setName("category");			
 			tblCategories.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
 			tblCategories.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), tblCategories, 6, categoryTableModel));
@@ -181,7 +183,7 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 			tblExercises.getColumnModel().getColumn(5).setMaxWidth(0);
 			tblExercises.getColumnModel().getColumn(5).setWidth(0);
 			
-			// set buttons Rename and Delete on table
+//			set buttons Rename and Delete in the table
 			tblExercises.setName("exercise");			
 			tblExercises.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
 			tblExercises.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), tblExercises, 6, exerciseTableModel));
@@ -201,14 +203,14 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 		btnAdd.setBounds(490, 30, 89, 23);
 		contentPane.add(btnAdd);
 		
-//		Groups of categories in combo box 
+//		groups of categories in combo box 
 		cboCategoryGroup = new JComboBox<String>();
 		cboCategoryGroup.setModel(new DefaultComboBoxModel<String>(new String[] {"Favorites", "My categories", "Online categories"}));
 		cboCategoryGroup.addItemListener(this);
 		cboCategoryGroup.setBounds(115, 81, 96, 22);
 		contentPane.add(cboCategoryGroup);
 		
-//		Groups of exercises in combo box 
+//		groups of exercises in combo box 
 		cboExerciseGroup = new JComboBox<String>();
 		cboExerciseGroup.setModel(new DefaultComboBoxModel<String>(new String[] {"Favorites", "My exercises", "Online exercises"}));
 		cboExerciseGroup.addItemListener(this);
@@ -381,6 +383,17 @@ public class NewTopic extends JFrame implements ActionListener, ItemListener, Ke
 				categoryExerciseService.insertCategoryExercise(categoryExercise);
 			}
 		}
+		
+		Object row[] = {
+				id,
+				false,
+				name,
+				sdf.format(new Date()),
+				favorite,
+				"offline"
+		};
+		
+		tableModel.addRow(row);
 		
 		showMessage("Added topic");
 		dispose();

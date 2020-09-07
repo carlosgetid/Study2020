@@ -6,6 +6,6 @@ import entities.Topic;
 
 public interface TopicDAO {
 	public int insertTopic (Topic bean);
-	ArrayList<Topic> readTopics();
+	public ArrayList<Topic> listAllTopics();
 	public int getNextAutoIncrementID();
 }

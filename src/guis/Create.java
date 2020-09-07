@@ -125,7 +125,7 @@ public class Create extends JDialog implements ActionListener {
 			exerciseService.insertExercise(bean);
 		}
 			
-			Object row[] = {
+			Object[] row = {
 					id,
 					false,
 					name,

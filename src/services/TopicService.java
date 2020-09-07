@@ -1,5 +1,7 @@
 package services;
 
+import java.util.ArrayList;
+
 import entities.Topic;
 import factory.DAOFactory;
 import interfaces.TopicDAO;
@@ -10,6 +12,10 @@ public class TopicService {
 
 	public int insertTopic (Topic bean) {
 		return topicDAO.insertTopic(bean);
+	}
+	
+	public ArrayList<Topic> listAllTopics(){
+		return topicDAO.listAllTopics();
 	}
 	
 	public int getNextAutoIncrementID() {
