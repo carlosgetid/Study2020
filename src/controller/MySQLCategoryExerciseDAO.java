@@ -22,7 +22,7 @@ public class MySQLCategoryExerciseDAO implements CategoryExerciseDAO {
 			pstm.setInt(2, bean.getExerciseID());
 			output = pstm.executeUpdate();
 		} catch (Exception e) {
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 		finally {
 			try {
