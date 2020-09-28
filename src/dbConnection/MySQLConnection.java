@@ -7,7 +7,7 @@ public class MySQLConnection {
 	public static Connection getConnection() {
 		Connection cn=null;
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			String url,user,pass;
 			url="jdbc:mysql://localhost:3306/sys_offline_study2020";
 			user="root";
