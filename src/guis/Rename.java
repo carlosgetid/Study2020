@@ -14,8 +14,10 @@ import components.ButtonEnablement;
 import components.TextFieldLimit;
 import entities.Category;
 import entities.Exercise;
+import entities.Topic;
 import services.CategoryService;
 import services.ExerciseService;
+import services.TopicService;
 
 import java.awt.event.ActionEvent;
 
@@ -28,6 +30,7 @@ public class Rename extends JDialog implements ActionListener{
 	private JTable table;
 	CategoryService categoryService = new CategoryService();
 	ExerciseService exerciseService = new ExerciseService();
+	TopicService topicService = new TopicService();
 	private int tableID;
 
 	public static void main(String[] args) {
@@ -53,9 +56,13 @@ public class Rename extends JDialog implements ActionListener{
 			tableID = 1;
 			maxValue = 50;
 		}
-		else {
+		else if(table.getName().equals("exercise")) {
 			tableID = 2;
 			maxValue = 200;
+		}
+		else {
+			tableID = 3;
+			maxValue = 70;
 		}
 		
 //		text box for name
@@ -120,13 +127,21 @@ public class Rename extends JDialog implements ActionListener{
 			
 			categoryService.updateCategory(bean);
 		}
-		else {
+		else if(tableID == 2) {
 			Exercise bean = new Exercise();
 			bean.setExerciseID(id);
 			bean.setExerciseText(name);
 			bean.setExerciseFavorite(favorite);
 			
 			exerciseService.updateExercise(bean);
+		}
+		else {
+			Topic bean = new Topic();
+			bean.setTopicID(id);
+			bean.setTopicName(name);
+			bean.setTopicFavorite(favorite);
+		
+			topicService.updateTopic(bean);
 		}
 		
 		table.setValueAt(name, table.getSelectedRow(), 2);

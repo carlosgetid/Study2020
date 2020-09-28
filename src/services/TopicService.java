@@ -18,6 +18,10 @@ public class TopicService {
 		return topicDAO.listAllTopics();
 	}
 	
+	public int updateTopic(Topic bean) {
+		return topicDAO.updateTopic(bean);
+	}
+	
 	public int getNextAutoIncrementID() {
 		return topicDAO.getNextAutoIncrementID();
 	}

@@ -116,6 +116,7 @@ public class MainMenu extends JFrame implements ItemListener, ActionListener, Ke
 				tblTopics.getColumnModel().getColumn(5).setWidth(0);
 				
 //				set buttons Rename and Delete in the table
+				tblTopics.setName("topic");	
 				tblTopics.getColumnModel().getColumn(6).setCellRenderer(new ButtonRenderer(6));
 				tblTopics.getColumnModel().getColumn(6).setCellEditor(new ButtonEditor(new JCheckBox(), tblTopics, 6, topicTableModel));
 				tblTopics.getColumnModel().getColumn(7).setCellRenderer(new ButtonRenderer(7));
